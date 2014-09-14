@@ -12,94 +12,61 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PersistenceModifier;
 import javax.jdo.annotations.Persistent;
 
-@PersistenceCapable(objectIdClass=ExpensEntity.class, table="expens_entity",detachable="true")
-public class ExpensEntity implements Serializable{
+@PersistenceCapable(objectIdClass = ExpensEntity.class, table = "expens_entity", detachable = "true")
+public class ExpensEntity implements Serializable {
 
-	
-	
 	@NotPersistent
 	private static final long serialVersionUID = 1L;
 
-	
-	@Persistent(primaryKey="true", valueStrategy=IdGeneratorStrategy.INCREMENT)
+	@Persistent(primaryKey = "true", valueStrategy = IdGeneratorStrategy.INCREMENT)
 	private long id;
-	
+
 	@Column(defaultValue = "null", jdbcType = "VARCHAR", name = "expenseName")
 	private String expenseName;
-	
-	@Column(jdbcType="INTEGER" , name="totalCost")
+
+	@Column(jdbcType = "INTEGER", name = "totalCost")
 	private long totalCost;
-	
-	@Join(table ="expense_purpose" )
-	@Column(name="expense_purposeCol")
+
+	@Join(table = "expense_purpose")
+	@Column(name = "expense_purposeCol")
 	@Persistent(persistenceModifier = PersistenceModifier.PERSISTENT, defaultFetchGroup = "true")
 	List<PurposeEntity> purpose;
-	
-	
-	
-	
+
 	public long getId() {
 		return id;
 	}
-
-
-
 
 	public void setId(long id) {
 		this.id = id;
 	}
 
-
-
-
 	public String getExpenseName() {
 		return expenseName;
 	}
-
-
-
 
 	public void setExpenseName(String expenseName) {
 		this.expenseName = expenseName;
 	}
 
-
-
-
 	public long getTotalCost() {
 		return totalCost;
 	}
-
-
-
 
 	public void setTotalCost(long totalCost) {
 		this.totalCost = totalCost;
 	}
 
-
-
-
 	public List<PurposeEntity> getPurpose() {
 		return purpose;
 	}
-
-
-
 
 	public void setPurpose(List<PurposeEntity> purpose) {
 		this.purpose = purpose;
 	}
 
-
-
-
 	public ExpensEntity() {
 		super();
 	}
-
-
-
 
 	public ExpensEntity(long id, String expenseName, long totalCost,
 			List<PurposeEntity> purpose) {
@@ -110,17 +77,11 @@ public class ExpensEntity implements Serializable{
 		this.purpose = purpose;
 	}
 
-
-
-
 	@Override
 	public String toString() {
 		return "ExpensEntity [id=" + id + ", expenseName=" + expenseName
 				+ ", totalCost=" + totalCost + ", purpose=" + purpose + "]";
 	}
-
-
-
 
 	@Override
 	public int hashCode() {
@@ -133,9 +94,6 @@ public class ExpensEntity implements Serializable{
 		result = prime * result + (int) (totalCost ^ (totalCost >>> 32));
 		return result;
 	}
-
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -163,6 +121,4 @@ public class ExpensEntity implements Serializable{
 		return true;
 	}
 
-	
-	
 }
