@@ -1,0 +1,139 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>Service</groupId>
+  <artifactId>dms</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>dms</name>
+  <description>data related module</description>
+  
+  
+  
+  
+
+<dependencies>
+
+
+	<!-- For Jersey -->	
+	
+	<dependency>
+				<groupId>com.sun.jersey</groupId>
+				<artifactId>jersey-server</artifactId>
+				<version>1.12</version>
+	</dependency>
+	
+	<dependency>
+				<groupId>com.sun.jersey</groupId>
+				<artifactId>jersey-json</artifactId>
+				<version>1.12</version>
+	</dependency>
+	<dependency>
+				<groupId>com.sun.jersey</groupId>
+				<artifactId>jersey-client</artifactId>
+				<version>1.12</version>
+	</dependency>
+	
+	<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-servlet</artifactId>
+			<version>1.12</version>
+	</dependency>
+	
+
+	<!-- For JDO -->	
+	<dependency>
+		<groupId>javax.jdo</groupId>
+		<artifactId>jdo-api</artifactId>
+		<version>3.0.1</version>
+	</dependency>
+
+	
+	<!-- For Data nucleus -->	
+
+	<dependency>
+				<groupId>org.datanucleus</groupId>
+				<artifactId>datanucleus-api-jdo</artifactId>
+				<version>3.0.2</version>
+	</dependency>
+
+	<dependency>
+				<groupId>org.datanucleus</groupId>
+				<artifactId>datanucleus-rdbms</artifactId>
+				<version>3.0.2</version>
+	</dependency>
+
+	<dependency>
+				<groupId>org.datanucleus</groupId>
+				<artifactId>datanucleus-enhancer</artifactId>
+				<version>3.0.1</version>
+	</dependency>
+
+	<dependency>
+				<groupId>org.datanucleus</groupId>
+				<artifactId>datanucleus-jdo-query</artifactId>
+				<version>3.0.2</version>
+	</dependency>
+
+	<dependency>
+				<groupId>org.datanucleus</groupId>
+				<artifactId>datanucleus-xml</artifactId>
+				<version>3.1.0-m1</version>
+	</dependency>
+	<!-- For mysql -->		
+	<dependency>
+            	<groupId>mysql</groupId>
+            	<artifactId>mysql-connector-java</artifactId>
+            	<version>5.1.21</version>
+    </dependency>
+	
+	<!-- servlet -->
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>javax.servlet-api</artifactId>
+		<version>3.0.1</version>
+	</dependency>
+
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>servlet-api</artifactId>
+		<version>2.5</version>
+	</dependency>
+
+
+	<dependency>
+		<groupId>javax.servlet.jsp</groupId>
+		<artifactId>javax.servlet.jsp-api</artifactId>
+		<version>2.2.1</version>
+	</dependency>
+
+
+<!-- slf4j logger -->
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+		<version>1.7.7</version>
+	</dependency>
+<!-- logBack  -->
+	<dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>1.0.13</version>
+    </dependency>
+    
+    <dependency>
+ 		 <groupId>ch.qos.logback</groupId>
+  		 <artifactId>logback-core</artifactId>
+  		 <version>1.0.13</version>
+ 	</dependency>
+   
+
+
+
+</dependencies>
+
+
+
+	<build>
+		<finalName>eka-dms</finalName>
+	</build>
+  
+</project>

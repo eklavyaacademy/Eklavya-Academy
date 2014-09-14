@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+ 
+<h:head>
+<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/default.css" />
+</h:head>
+<h:body>
+	<h1>Hello World PrimeFaces</h1>
+ 
+	<h:form>
+		<p:growl id="growl" showDetail="true" life="6000" />
+		<p:panel>
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Name:" />
+				<p:inputText value="#{testBean.name}" />
+				<p:outputLabel value="Age:" />
+				<p:inputText value="#{testBean.i}" />
+			</p:panelGrid>
+		
+		
+		</p:panel>
+		<p:commandButton value="Done" actionListener="#{testBean.show}" update="growl"/>	
+	
+	
+	   <p:editor value="#{testBean.name}" />
+	    <h:panelGrid columns="2" style="margin-top: 10px">
+        <p:commandButton value="Submit"   icon="ui-icon-disk" />
+ 
+        <p:commandButton value="Clear" type="button"  icon="ui-icon-close" />
+    </h:panelGrid>
+	</h:form>
+ 
+ 
+</h:body>
+</html>
