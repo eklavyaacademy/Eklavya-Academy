@@ -2,26 +2,20 @@ package dmsEntites.expense;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.jdo.annotations.Column;
-import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.Join;
-import javax.jdo.annotations.Joins;
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
-import dmsEntites.common.DMSConstants;
-import dmsEntites.common.jsonObject.AdvertisementExpensObject;
-import dmsEntites.inquary.InquaryEntity;
+import constats.DMSConstants;
 
 
 
 @PersistenceCapable(objectIdClass = PurposeEntity.class, table = "purpose_entity", detachable = "true")
-@Join(table="advertisement_details",column="id_ref",primaryKey="id_pk")
-
+@Join(table="purpose_advertiesment",column="id",primaryKey="id_pk")
 public class PurposeEntity implements Serializable{
 
 	@NotPersistent
@@ -43,9 +37,15 @@ public class PurposeEntity implements Serializable{
 	@Column(defaultValue = DMSConstants.SINGLE_VALUE_EXPENSE , jdbcType = "INTEGER", name = "totalCost")
 	private String typeOfPurpose; 
 	
-	@Join
+	/*@Join
 	@Element(column="advertisementDetails",table="advertisement_details",dependent="true")
 	private List<String> advertisementDetails = null; // if typeOfpurpose is multi value
+	*/
+	
+	
+	@Column(name = "advertiesment", jdbcType = "CLOB")
+	@Persistent(table = "purpose_advertiesment")
+	private String advertisementDetails ; //AdvertisementExpensDataListObject
 
 	// Getter & setter =============================================================
 	public long getPurposeId() {
@@ -88,18 +88,18 @@ public class PurposeEntity implements Serializable{
 		this.typeOfPurpose = typeOfPurpose;
 	}
 
-	public List<String> getAdvertisementDetails() {
+	public String getAdvertisementDetails() {
 		return advertisementDetails;
 	}
 
-	public void setAdvertisementDetails(List<String> advertisementDetails) {
+	public void setAdvertisementDetails(String advertisementDetails) {
 		this.advertisementDetails = advertisementDetails;
 	}
 
 
 	// Constructors =============================================================
 	public PurposeEntity(long purposeId, String purposeName, long totalCost,
-			Date expenseDate, String typeOfPurpose, List<String> advertisementDetails) {
+			Date expenseDate, String typeOfPurpose, String advertisementDetails) {
 		super();
 		this.purposeId = purposeId;
 		this.purposeName = purposeName;
@@ -109,7 +109,20 @@ public class PurposeEntity implements Serializable{
 		this.advertisementDetails = advertisementDetails;
 	}
 	
+	public PurposeEntity() {
+		super();
+
+	}
+
 	// Override methods =====================================================
+	@Override
+	public String toString() {
+		return "PurposeEntity [purposeId=" + purposeId + ", purposeName="
+				+ purposeName + ", totalCost=" + totalCost + ", expenseDate="
+				+ expenseDate + ", typeOfPurpose=" + typeOfPurpose
+				+ ", advertisementDetails=" + advertisementDetails + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -165,20 +178,6 @@ public class PurposeEntity implements Serializable{
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "PurposeEntity [purposeId=" + purposeId + ", purposeName="
-				+ purposeName + ", totalCost=" + totalCost + ", expenseDate="
-				+ expenseDate + ", typeOfPurpose=" + typeOfPurpose
-				+ ", advertisementDetails=" + advertisementDetails + "]";
-	}
-
-	public PurposeEntity() {
-		super();
-
-	}
-	
-
 	// Supportive methods =============================================================
 	public void updateAll(PurposeEntity input) {
 		this.purposeId = input.purposeId;
@@ -189,6 +188,8 @@ public class PurposeEntity implements Serializable{
 		this.advertisementDetails = input.advertisementDetails;
 	}
 	
+	
+
 	public void updatePhoneNumber(PurposeEntity input){
 		this.advertisementDetails = input.advertisementDetails;
 	}

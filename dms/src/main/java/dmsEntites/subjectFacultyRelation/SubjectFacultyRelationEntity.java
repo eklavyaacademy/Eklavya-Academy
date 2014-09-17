@@ -10,11 +10,9 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.Unique;
 
-import dmsEntites.common.jsonObject.FacultyObject;
-import dmsEntites.inquary.InquaryEntity;
+@PersistenceCapable(objectIdClass = SubjectFacultyRelationEntity.class, table = "subject_faculty_relation_entity", detachable = "true")
+@Join(table="faculty_subject_rel",column="id",primaryKey="id_pk")
 
-@PersistenceCapable(objectIdClass = InquaryEntity.class, table = "subject_faculty_relation_entity", detachable = "true")
-@Join(table="faculty_object",column="id_ref",primaryKey="id_pk")
 public class SubjectFacultyRelationEntity implements Serializable{
 	
 	@NotPersistent
@@ -28,9 +26,9 @@ public class SubjectFacultyRelationEntity implements Serializable{
 	@Column(jdbcType = "INTEGER", name = "subjectId")
 	private long subjectId; 
 	
-	@Column(name = "facultiesObject", jdbcType = "CLOB")
-	@Persistent(table = "faculty_object")
-	private String facultiesObject;
+	@Column(name = "faculties", jdbcType = "CLOB")
+	@Persistent(table = "faculty_subject_rel")
+	private String faculties; //SubjectFacultyDataListObject
 	
 	
 	//Getter&Setter==================================
@@ -55,13 +53,12 @@ public class SubjectFacultyRelationEntity implements Serializable{
 	}
 
 
-
-	public String getFacultiesObject() {
-		return facultiesObject;
+	public String getFaculties() {
+		return faculties;
 	}
 
-	public void setFacultiesObject(String facultiesObject) {
-		this.facultiesObject = facultiesObject;
+	public void setFaculties(String faculties) {
+		this.faculties = faculties;
 	}
 
 	public static long getSerialversionuid() {
@@ -75,27 +72,28 @@ public class SubjectFacultyRelationEntity implements Serializable{
 
 
 	public SubjectFacultyRelationEntity(long id, long subjectId,
-			String facultiesObject) {
+			String faculties) {
 		super();
 		this.id = id;
 		this.subjectId = subjectId;
-		this.facultiesObject = facultiesObject;
+		this.faculties = faculties;
+	}
+	
+	
+	// Supportive methods =================================================
+	public void updateAll(SubjectFacultyRelationEntity input) {
+		this.subjectId = input.getSubjectId();
+		this.faculties = input.getFaculties();
 	}
 	
 	//Override methods ====================================================
-	@Override
-	public String toString() {
-		return "SubjectFacultyRelationEntity [id=" + id + ", subjectId="
-				+ subjectId + ", facultiesJsonObject=" + facultiesObject
-				+ "]";
-	}
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((facultiesObject == null) ? 0 : facultiesObject.hashCode());
+				+ ((faculties == null) ? 0 : faculties.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + (int) (subjectId ^ (subjectId >>> 32));
 		return result;
@@ -110,10 +108,10 @@ public class SubjectFacultyRelationEntity implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		SubjectFacultyRelationEntity other = (SubjectFacultyRelationEntity) obj;
-		if (facultiesObject == null) {
-			if (other.facultiesObject != null)
+		if (faculties == null) {
+			if (other.faculties != null)
 				return false;
-		} else if (!facultiesObject.equals(other.facultiesObject))
+		} else if (!faculties.equals(other.faculties))
 			return false;
 		if (id != other.id)
 			return false;
@@ -122,14 +120,14 @@ public class SubjectFacultyRelationEntity implements Serializable{
 		return true;
 	}
 
-	// Supportive methods =================================================
-	public void updateAll(SubjectFacultyRelationEntity input) {
-		this.subjectId = input.getSubjectId();
-		this.facultiesObject = input.getFacultiesObject();
+	@Override
+	public String toString() {
+		return "SubjectFacultyRelationEntity [id=" + id + ", subjectId="
+				+ subjectId + ", faculties=" + faculties + "]";
 	}
-	
+
 	public void updateFaculties(SubjectFacultyRelationEntity input) {
-		this.facultiesObject = input.getFacultiesObject();
+		this.faculties = input.getFaculties();
 	}
 	
 

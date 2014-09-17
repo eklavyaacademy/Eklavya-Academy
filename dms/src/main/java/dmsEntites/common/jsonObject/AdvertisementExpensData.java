@@ -6,13 +6,13 @@ import java.util.Date;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property="@class" ) 
-public class AdvertisementExpensObject implements Serializable {
+public class AdvertisementExpensData implements Serializable {
 
 	
 	private static final long serialVersionUID = 1L;
 	
 	//Properties ====================================================
-	private long id;
+	private String name;
 	
 	private Date date;
 	
@@ -29,16 +29,22 @@ public class AdvertisementExpensObject implements Serializable {
 	private long totalCost;
 
 	//Getter & Setter ==============================================
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
+	
 
 	public Date getDate() {
 		return date;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public void setDate(Date date) {
@@ -93,16 +99,6 @@ public class AdvertisementExpensObject implements Serializable {
 		this.totalCost = totalCost;
 	}
 
-	//Override =============================================================
-	@Override
-	public String toString() {
-		return "AdvertisementExpensObject [id=" + id + ", date=" + date
-				+ ", size_Length=" + size_Length + ", size_Width=" + size_Width
-				+ ", size_Height=" + size_Height + ", quantity=" + quantity
-				+ ", dealerDetails=" + dealerDetails + ", totalCost="
-				+ totalCost + "]";
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -110,7 +106,7 @@ public class AdvertisementExpensObject implements Serializable {
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result
 				+ ((dealerDetails == null) ? 0 : dealerDetails.hashCode());
-		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + quantity;
 		result = prime * result + (int) (size_Height ^ (size_Height >>> 32));
 		result = prime * result + (int) (size_Length ^ (size_Length >>> 32));
@@ -127,7 +123,7 @@ public class AdvertisementExpensObject implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AdvertisementExpensObject other = (AdvertisementExpensObject) obj;
+		AdvertisementExpensData other = (AdvertisementExpensData) obj;
 		if (date == null) {
 			if (other.date != null)
 				return false;
@@ -138,7 +134,10 @@ public class AdvertisementExpensObject implements Serializable {
 				return false;
 		} else if (!dealerDetails.equals(other.dealerDetails))
 			return false;
-		if (id != other.id)
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
 			return false;
 		if (quantity != other.quantity)
 			return false;
@@ -153,12 +152,24 @@ public class AdvertisementExpensObject implements Serializable {
 		return true;
 	}
 
-	//Constructors =============================================================
-	public AdvertisementExpensObject(long id, Date date, long size_Length,
+	@Override
+	public String toString() {
+		return "AdvertisementExpensObject [name=" + name + ", date=" + date
+				+ ", size_Length=" + size_Length + ", size_Width=" + size_Width
+				+ ", size_Height=" + size_Height + ", quantity=" + quantity
+				+ ", dealerDetails=" + dealerDetails + ", totalCost="
+				+ totalCost + "]";
+	}
+
+	public AdvertisementExpensData() {
+		super();
+	}
+
+	public AdvertisementExpensData(String name, Date date, long size_Length,
 			long size_Width, long size_Height, int quantity,
 			DealerObject dealerDetails, long totalCost) {
 		super();
-		this.id = id;
+		this.name = name;
 		this.date = date;
 		this.size_Length = size_Length;
 		this.size_Width = size_Width;
@@ -168,10 +179,6 @@ public class AdvertisementExpensObject implements Serializable {
 		this.totalCost = totalCost;
 	}
 
-	public AdvertisementExpensObject() {
-		super();
-	} 
-	
 	
 	
 

@@ -10,9 +10,6 @@ import javax.jdo.annotations.Joins;
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-
-import dmsEntites.common.jsonObject.InquarySubjectObject;
 
 /**
  * @author Nitin
@@ -21,8 +18,8 @@ import dmsEntites.common.jsonObject.InquarySubjectObject;
 
 @PersistenceCapable(objectIdClass = InquaryEntity.class, table = "inquary_entity", detachable = "true")
 @Joins ( 
-		 { @Join(table="contact_inquary",column="id_ref",primaryKey="id_pk"),
-		   @Join(table="inquary_subject",column="id_ref",primaryKey="id_pk")
+		 { @Join(table="contact_inquary",column="id",primaryKey="id_pk"),
+		   @Join(table="inquary_subject",column="id",primaryKey="id_pk")
 		 }
        )
 
@@ -59,14 +56,16 @@ public class InquaryEntity implements Serializable {
 	private boolean registeredUser = false; // false = non-register 
 											//true =  registered user
 
-	@Column(name = "contactObject", jdbcType = "CLOB")
+	@Column(name = "contact", jdbcType = "CLOB")
 	@Persistent(table = "contact_inquary")
-	private String contactObject;
+	private String contact; //ContactInfoObject
 
-	@Column(name = "inquarySubjectObject", jdbcType = "CLOB")
+	@Column(name = "inquarySubject", jdbcType = "CLOB")
 	@Persistent(table = "inquary_subject")
-	private String inquarySubjectObject;
+	private String inquarySubjects; //InquarySubjectDataListObject
 
+	
+	
 	// Getter & setter =============================================================
 	public long getInqaryId() {
 		return inqaryId;
@@ -108,20 +107,20 @@ public class InquaryEntity implements Serializable {
 		this.inquaryDate = inquaryDate;
 	}
 
-	public String getContactObject() {
-		return contactObject;
+	public String getContact() {
+		return contact;
 	}
 
-	public void setContactObject(String contactObject) {
-		this.contactObject = contactObject;
+	public void setContact(String contact) {
+		this.contact = contact;
 	}
 
-	public String getInquarySubjectObject() {
-		return inquarySubjectObject;
+	public String getInquarySubjects() {
+		return inquarySubjects;
 	}
 
-	public void setInquarySubjectObject(String inquarySubjectObject) {
-		this.inquarySubjectObject = inquarySubjectObject;
+	public void setInquarySubjects(String inquarySubjects) {
+		this.inquarySubjects = inquarySubjects;
 	}
 
 	public boolean isSchoolOrCollege() {
@@ -161,7 +160,7 @@ public class InquaryEntity implements Serializable {
 	public InquaryEntity(long inqaryId, String studentName, String branch,
 			String instituteName, Date inquaryDate, boolean schoolOrCollege,
 			boolean subjectMedium, boolean registeredUser,
-			String contactObject, String inquarySubjectObject) {
+			String contact, String inquarySubjects) {
 		super();
 		this.inqaryId = inqaryId;
 		this.studentName = studentName;
@@ -171,38 +170,47 @@ public class InquaryEntity implements Serializable {
 		this.schoolOrCollege = schoolOrCollege;
 		this.subjectMedium = subjectMedium;
 		this.registeredUser = registeredUser;
-		this.contactObject = contactObject;
-		this.inquarySubjectObject = inquarySubjectObject;
+		this.contact = contact;
+		this.inquarySubjects = inquarySubjects;
 	}
 
+	
+
+	// Supportive methods =============================================================
+	public void updateAll(InquaryEntity input) {
+		this.inqaryId = input.getInqaryId();
+		this.studentName = input.getStudentName();
+		this.branch = input.getBranch();
+		this.instituteName = input.getInstituteName();
+		this.inquaryDate = input.getInquaryDate();
+		this.schoolOrCollege = input.isSchoolOrCollege();
+		this.subjectMedium = input.isSubjectMedium();
+		this.registeredUser = input.isRegisteredUser();
+		this.contact = input.getContact();
+		this.inquarySubjects = input.getInquarySubjects();
+	}
+
+	public void updateContact(InquaryEntity input){
+		this.contact = input.contact;
+	}
+	
+	public void updateRegisterUserProperty(InquaryEntity input){
+		this.registeredUser = input.isRegisteredUser();
+	}
 	// Override methods =====================================================
-	@Override
-	public String toString() {
-		return "InquaryEntity [inqaryId=" + inqaryId + ", studentName="
-				+ studentName + ", branch=" + branch + ", instituteName="
-				+ instituteName + ", inquaryDate=" + inquaryDate
-				+ ", schoolOrCollege=" + schoolOrCollege + ", subjectMedium="
-				+ subjectMedium + ", registeredUser=" + registeredUser
-				+ ", phoneNumberJSONObject=" + contactObject
-				+ ", inquarySubjectJSONObject=" + inquarySubjectObject
-				+ "]";
-	}
-
-		
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((branch == null) ? 0 : branch.hashCode());
-		result = prime * result
-				+ ((contactObject == null) ? 0 : contactObject.hashCode());
+		result = prime * result + ((contact == null) ? 0 : contact.hashCode());
 		result = prime * result + (int) (inqaryId ^ (inqaryId >>> 32));
 		result = prime * result
 				+ ((inquaryDate == null) ? 0 : inquaryDate.hashCode());
 		result = prime
 				* result
-				+ ((inquarySubjectObject == null) ? 0 : inquarySubjectObject
+				+ ((inquarySubjects == null) ? 0 : inquarySubjects
 						.hashCode());
 		result = prime * result
 				+ ((instituteName == null) ? 0 : instituteName.hashCode());
@@ -228,10 +236,10 @@ public class InquaryEntity implements Serializable {
 				return false;
 		} else if (!branch.equals(other.branch))
 			return false;
-		if (contactObject == null) {
-			if (other.contactObject != null)
+		if (contact == null) {
+			if (other.contact != null)
 				return false;
-		} else if (!contactObject.equals(other.contactObject))
+		} else if (!contact.equals(other.contact))
 			return false;
 		if (inqaryId != other.inqaryId)
 			return false;
@@ -240,10 +248,10 @@ public class InquaryEntity implements Serializable {
 				return false;
 		} else if (!inquaryDate.equals(other.inquaryDate))
 			return false;
-		if (inquarySubjectObject == null) {
-			if (other.inquarySubjectObject != null)
+		if (inquarySubjects == null) {
+			if (other.inquarySubjects != null)
 				return false;
-		} else if (!inquarySubjectObject.equals(other.inquarySubjectObject))
+		} else if (!inquarySubjects.equals(other.inquarySubjects))
 			return false;
 		if (instituteName == null) {
 			if (other.instituteName != null)
@@ -264,26 +272,16 @@ public class InquaryEntity implements Serializable {
 		return true;
 	}
 
-	// Supportive methods =============================================================
-	public void updateAll(InquaryEntity input) {
-		this.inqaryId = input.getInqaryId();
-		this.studentName = input.getStudentName();
-		this.branch = input.getBranch();
-		this.instituteName = input.getInstituteName();
-		this.inquaryDate = input.getInquaryDate();
-		this.schoolOrCollege = input.isSchoolOrCollege();
-		this.subjectMedium = input.isSubjectMedium();
-		this.registeredUser = input.isRegisteredUser();
-		this.contactObject = input.getContactObject();
-		this.inquarySubjectObject = input.getInquarySubjectObject();
+	@Override
+	public String toString() {
+		return "InquaryEntity [inqaryId=" + inqaryId + ", studentName="
+				+ studentName + ", branch=" + branch + ", instituteName="
+				+ instituteName + ", inquaryDate=" + inquaryDate
+				+ ", schoolOrCollege=" + schoolOrCollege + ", subjectMedium="
+				+ subjectMedium + ", registeredUser=" + registeredUser
+				+ ", contact=" + contact + ", inquarySubjects="
+				+ inquarySubjects + "]";
 	}
-	
-	public void updatePhoneNumber(InquaryEntity input){
-		this.contactObject = input.getContactObject();
-	}
-	
-	public void updateRegisterUserProperty(InquaryEntity input){
-		this.registeredUser = input.isRegisteredUser();
-	}
+
 
 }

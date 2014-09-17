@@ -1,4 +1,4 @@
-package dmsEntites.common;
+package constats;
 
 public class DMSConstants {
 

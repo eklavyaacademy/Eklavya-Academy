@@ -7,7 +7,6 @@ import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable(objectIdClass=SubjectEntity.class, table="subjects_entity",detachable="true")
 public class SubjectEntity implements Serializable{

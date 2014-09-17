@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
-public class InquarySubjectObject implements Serializable {
+public class InquarySubjectData implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,11 +31,11 @@ public class InquarySubjectObject implements Serializable {
 	}
 
 	// Constructors ===========================================================
-	public InquarySubjectObject() {
+	public InquarySubjectData() {
 
 	}
 
-	public InquarySubjectObject(long subjectId, String subjectName) {
+	public InquarySubjectData(long subjectId, String subjectName) {
 		super();
 		this.subjectId = subjectId;
 		this.subjectName = subjectName;
@@ -67,7 +67,7 @@ public class InquarySubjectObject implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		InquarySubjectObject other = (InquarySubjectObject) obj;
+		InquarySubjectData other = (InquarySubjectData) obj;
 		if (subjectId != other.subjectId)
 			return false;
 		if (subjectName == null) {
@@ -79,7 +79,7 @@ public class InquarySubjectObject implements Serializable {
 	}
 
 	// Supportive methods ================================================
-	public void updateAll(InquarySubjectObject input) {
+	public void updateAll(InquarySubjectData input) {
 		this.subjectId = input.getSubjectId();
 		this.subjectName = input.getSubjectName();
 	}

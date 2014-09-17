@@ -2,22 +2,22 @@ package dmsEntites.students;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.Join;
+import javax.jdo.annotations.Joins;
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.PersistenceModifier;
 import javax.jdo.annotations.Persistent;
 
-import dmsEntites.common.entity.FacultySubjectsEntity;
-import dmsEntites.common.entity.StudentSubjectEntity;
-
-
 @PersistenceCapable(objectIdClass = StudentEntity.class, table = "student_entity", detachable = "true")
-@Join(table="contact_student",column="id_ref",primaryKey="id_pk")
+@Joins ( 
+		 { @Join(table="contact_student",column="id",primaryKey="id_pk"),
+		   @Join(table="student_branch",column="id",primaryKey="id_pk"),
+		   @Join(table="student_subjects",column="id",primaryKey="id_pk")
+		 }
+      )
 
 public class StudentEntity implements Serializable {
 
@@ -47,19 +47,22 @@ public class StudentEntity implements Serializable {
 	@Column(jdbcType = "BIT", name = "schoolOrCollege")
 	private boolean schoolOrCollege = false; // false = school 	//true = college
 
-	@Column(name = "contactObject", jdbcType = "CLOB")
+	
+	//JSON objects 
+	@Column(name = "contact", jdbcType = "CLOB")
 	@Persistent(table = "contact_student")
-	private String contactObject;
-	
-	@Persistent(persistenceModifier = PersistenceModifier.PERSISTENT, defaultFetchGroup = "true")
-	@Column(name = "branch")
-	private BranchEntity branch;	
-	
-	@Persistent(defaultFetchGroup = "true", persistenceModifier = PersistenceModifier.PERSISTENT)
-	@Join(table ="student_subjects" )
-	@Column(name="student_subjectsCol")
-	private List<StudentSubjectEntity> subjects;
+	private String contact;//ContactInfoObject
 
+	@Column(name = "branch", jdbcType = "CLOB")
+	@Persistent(table = "student_branch")
+	private String branch; //BranchObject
+	
+	
+	@Column(name = "subjects", jdbcType = "CLOB")
+	@Persistent(table = "student_subjects")
+	private String subjects; //StudentSubjectListObject
+	
+	
 	public long getStudentId() {
 		return studentId;
 	}
@@ -116,20 +119,32 @@ public class StudentEntity implements Serializable {
 		this.schoolOrCollege = schoolOrCollege;
 	}
 
-	public BranchEntity getBranch() {
+	public String getBranch() {
 		return branch;
 	}
 
-	public void setBranch(BranchEntity branch) {
+	public void setBranch(String branch) {
 		this.branch = branch;
 	}
 
-	public List<StudentSubjectEntity> getSubjects() {
+	public String getContact() {
+		return contact;
+	}
+
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+
+	public String getSubjects() {
 		return subjects;
 	}
 
-	public void setSubjects(List<StudentSubjectEntity> subjects) {
+	public void setSubjects(String subjects) {
 		this.subjects = subjects;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public StudentEntity() {
@@ -139,8 +154,7 @@ public class StudentEntity implements Serializable {
 	public StudentEntity(long studentId, String studentName,
 			Date dateOfJoining, Date registrationDate, Date dateOfBirth,
 			String instituteName, boolean schoolOrCollege,
-			String contactObject, BranchEntity branch,
-			List<StudentSubjectEntity> subjects) {
+			String contact, String branch, String subjects) {
 		super();
 		this.studentId = studentId;
 		this.studentName = studentName;
@@ -149,7 +163,7 @@ public class StudentEntity implements Serializable {
 		this.dateOfBirth = dateOfBirth;
 		this.instituteName = instituteName;
 		this.schoolOrCollege = schoolOrCollege;
-		this.contactObject = contactObject;
+		this.contact = contact;
 		this.branch = branch;
 		this.subjects = subjects;
 	}
@@ -160,8 +174,8 @@ public class StudentEntity implements Serializable {
 				+ studentName + ", dateOfJoining=" + dateOfJoining
 				+ ", registrationDate=" + registrationDate + ", dateOfBirth="
 				+ dateOfBirth + ", instituteName=" + instituteName
-				+ ", schoolOrCollege=" + schoolOrCollege + ", contactObject="
-				+ contactObject + ", branch=" + branch + ", subjects="
+				+ ", schoolOrCollege=" + schoolOrCollege + ", contact="
+				+ contact + ", branch=" + branch + ", subjects="
 				+ subjects + "]";
 	}
 
@@ -171,7 +185,7 @@ public class StudentEntity implements Serializable {
 		int result = 1;
 		result = prime * result + ((branch == null) ? 0 : branch.hashCode());
 		result = prime * result
-				+ ((contactObject == null) ? 0 : contactObject.hashCode());
+				+ ((contact == null) ? 0 : contact.hashCode());
 		result = prime * result
 				+ ((dateOfBirth == null) ? 0 : dateOfBirth.hashCode());
 		result = prime * result
@@ -204,10 +218,10 @@ public class StudentEntity implements Serializable {
 				return false;
 		} else if (!branch.equals(other.branch))
 			return false;
-		if (contactObject == null) {
-			if (other.contactObject != null)
+		if (contact == null) {
+			if (other.contact != null)
 				return false;
-		} else if (!contactObject.equals(other.contactObject))
+		} else if (!contact.equals(other.contact))
 			return false;
 		if (dateOfBirth == null) {
 			if (other.dateOfBirth != null)
@@ -245,6 +259,7 @@ public class StudentEntity implements Serializable {
 			return false;
 		return true;
 	}
+
 
 	
 }

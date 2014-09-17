@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
-public class DegreeObject implements Serializable {
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
+public class DegreeData implements Serializable {
 
 	// Properties ====================================================
 	private static final long serialVersionUID = 1L;
@@ -52,7 +53,7 @@ public class DegreeObject implements Serializable {
 
 	// Constructors
 	// =============================================================
-	public DegreeObject(String degreeName, String grade, String university,
+	public DegreeData(String degreeName, String grade, String university,
 			boolean ugPg) {
 		super();
 		this.degreeName = degreeName;
@@ -61,7 +62,7 @@ public class DegreeObject implements Serializable {
 		this.ugPg = ugPg;
 	}
 
-	public DegreeObject() {
+	public DegreeData() {
 		super();
 	}
 
@@ -93,7 +94,7 @@ public class DegreeObject implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DegreeObject other = (DegreeObject) obj;
+		DegreeData other = (DegreeData) obj;
 		if (degreeName == null) {
 			if (other.degreeName != null)
 				return false;
@@ -115,7 +116,7 @@ public class DegreeObject implements Serializable {
 	}
 
 	// Supportive methods ================================================
-	public void updateAll(DegreeObject input) {
+	public void updateAll(DegreeData input) {
 		this.degreeName = input.getDegreeName();
 		this.grade = input.getGrade();
 		this.university = input.getUniversity();

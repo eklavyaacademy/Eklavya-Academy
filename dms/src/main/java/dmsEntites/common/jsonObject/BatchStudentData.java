@@ -1,8 +1,11 @@
-package dmsEntites.common.relatedobjects;
+package dmsEntites.common.jsonObject;
 
 import java.io.Serializable;
 
-public class Student implements Serializable{
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property="@class" ) 
+public class BatchStudentData implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -26,13 +29,13 @@ public class Student implements Serializable{
 		this.feePaid = feePaid;
 	}
 
-	public Student(long studentId, long feePaid) {
+	public BatchStudentData(long studentId, long feePaid) {
 		super();
 		this.studentId = studentId;
 		this.feePaid = feePaid;
 	}
 
-	public Student() {
+	public BatchStudentData() {
 		super();
 	}
 
@@ -59,7 +62,7 @@ public class Student implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Student other = (Student) obj;
+		BatchStudentData other = (BatchStudentData) obj;
 		if (feePaid != other.feePaid)
 			return false;
 		if (studentId != other.studentId)

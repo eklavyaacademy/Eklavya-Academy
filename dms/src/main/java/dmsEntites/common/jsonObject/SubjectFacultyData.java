@@ -1,33 +1,32 @@
 package dmsEntites.common.jsonObject;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
-public class AmountObject implements Serializable {
+public class SubjectFacultyData implements Serializable {
 
 	// Properties ====================================================
 	private static final long serialVersionUID = 1L;
-	private long amount;
-	private Date date;
+	private String facultyName;
+	private long facultyId;
 
 	// Getter & Setter ==============================================
-	public long getAmount() {
-		return amount;
+	public String getFacultyName() {
+		return facultyName;
 	}
 
-	public void setAmount(long amount) {
-		this.amount = amount;
+	public void setFacultyName(String facultyName) {
+		this.facultyName = facultyName;
 	}
 
-	public Date getDate() {
-		return date;
+	public long getFacultyId() {
+		return facultyId;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setFacultyId(long facultyId) {
+		this.facultyId = facultyId;
 	}
 
 	public static long getSerialversionuid() {
@@ -36,28 +35,30 @@ public class AmountObject implements Serializable {
 
 	// Constructors
 	// =============================================================
-	public AmountObject(long amount, Date date) {
+	public SubjectFacultyData(String facultyName, long facultyId) {
 		super();
-		this.amount = amount;
-		this.date = date;
+		this.facultyName = facultyName;
+		this.facultyId = facultyId;
 	}
 
-	public AmountObject() {
+	public SubjectFacultyData() {
 		super();
 	}
 
 	// Override =============================================================
 	@Override
 	public String toString() {
-		return "AdvanceAmountObject [amount=" + amount + ", date=" + date + "]";
+		return "FacultyObject [facultyName=" + facultyName + ", facultyId="
+				+ facultyId + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (amount ^ (amount >>> 32));
-		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		result = prime * result + (int) (facultyId ^ (facultyId >>> 32));
+		result = prime * result
+				+ ((facultyName == null) ? 0 : facultyName.hashCode());
 		return result;
 	}
 
@@ -69,21 +70,21 @@ public class AmountObject implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AmountObject other = (AmountObject) obj;
-		if (amount != other.amount)
+		SubjectFacultyData other = (SubjectFacultyData) obj;
+		if (facultyId != other.facultyId)
 			return false;
-		if (date == null) {
-			if (other.date != null)
+		if (facultyName == null) {
+			if (other.facultyName != null)
 				return false;
-		} else if (!date.equals(other.date))
+		} else if (!facultyName.equals(other.facultyName))
 			return false;
 		return true;
 	}
 
 	// Supportive methods ================================================
-	public void updateAll(AmountObject input) {
-		this.amount = input.getAmount();
-		this.date = input.getDate();
+	public void updateAll(SubjectFacultyData input) {
+		this.facultyName = input.getFacultyName();
+		this.facultyId = input.getFacultyId();
 
 	}
 

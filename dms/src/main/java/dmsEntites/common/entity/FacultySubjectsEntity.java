@@ -10,10 +10,7 @@ import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PersistenceModifier;
 import javax.jdo.annotations.Persistent;
-
-import dmsEntites.common.relatedobjects.Student;
 import dmsEntites.faculty.BatchEntity;
-import dmsEntites.faculty.FacultyEntity;
 
 @PersistenceCapable(objectIdClass = FacultySubjectsEntity.class, table = "faculty_subject_entity", detachable = "true")
 public class FacultySubjectsEntity implements Serializable{
@@ -30,10 +27,12 @@ public class FacultySubjectsEntity implements Serializable{
 	@Column(jdbcType = "INTEGER", name = "amount_collected")
 	private long amountColleted;
 	
+	@Persistent(defaultFetchGroup = "true", persistenceModifier = PersistenceModifier.PERSISTENT)
 	@Join(table ="faculty_batch" )
 	@Column(name="faculty_batchCol")
-	@Persistent(defaultFetchGroup = "true", persistenceModifier = PersistenceModifier.PERSISTENT)
 	private List<BatchEntity> batches;
+	
+	
 
 	public long getSubjectId() {
 		return subjectId;
@@ -74,12 +73,6 @@ public class FacultySubjectsEntity implements Serializable{
 	@Override
 	public String toString() {
 		
-		/*return "FacultySubjectsEntity [subjectId=" + subjectId
-				+ ", percentageOnSubject=" + percentageOnSubject
-				+ ", amountColleted=" + amountColleted + ", batches=" + batches
-				+ "]";*/
-		
-
 		
 		StringBuilder result = new StringBuilder("FacultySubjectsEntity{subjectId=" + subjectId
 				+ ", percentageOnSubject=" + percentageOnSubject

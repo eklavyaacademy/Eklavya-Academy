@@ -1,42 +1,31 @@
-package dmsEntites.common.entity;
+package dmsEntites.common.jsonObject;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.jdo.annotations.Column;
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
-@PersistenceCapable(objectIdClass = StudentSubjectEntity.class, table = "student_subject_entity", detachable = "true")
-public class StudentSubjectEntity implements Serializable {
 
-	@NotPersistent
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property="@class" ) 
+public class StudentSubjectData implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	// Foreign key's
-	@Column(defaultValue = "-1", jdbcType = "INTEGER", name = "subject_id")
 	private long subjectId = -1; // SubjectEntity
 
-	@Column(defaultValue = "-1", jdbcType = "INTEGER", name = "faculty_id")
 	private long facultyId = -1; // FacultyEntity
 
-	@Column(defaultValue = "-1", jdbcType = "INTEGER", name = "batch_id")
 	private long batchId = -1; // BatchEntity
 
-	@Column(jdbcType = "DATE", name = "fee_submission_date")
 	private Date feeSubmissionDate;
 
-	@Column(jdbcType = "INTEGER", name = "subject_fee")
 	private long subjectFee; // will obtained corresponding to subject_id from
 								// Subject Entity
 
-	@Column(jdbcType = "INTEGER", name = "amount_paid")
 	private long amountPaid; // how much amount student has paid as installment
 
-	@Column(name = "advance_Amount", jdbcType = "CLOB")
-	@Persistent(table = "student_advance_amount_paid")
 	private List<String> installment; // AmountObject
 
 	public long getSubjectId() {
@@ -95,11 +84,11 @@ public class StudentSubjectEntity implements Serializable {
 		this.installment = installment;
 	}
 
-	public StudentSubjectEntity() {
+	public StudentSubjectData() {
 		super();
 	}
 
-	public StudentSubjectEntity(long subjectId, long facultyId, long batchId,
+	public StudentSubjectData(long subjectId, long facultyId, long batchId,
 			Date feeSubmissionDate, long subjectFee, long amountPaid,
 			List<String> installment) {
 		super();
@@ -148,7 +137,7 @@ public class StudentSubjectEntity implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 
-		StudentSubjectEntity other = (StudentSubjectEntity) obj;
+		StudentSubjectData other = (StudentSubjectData) obj;
 		if (amountPaid != other.amountPaid)
 			return false;
 
@@ -174,12 +163,12 @@ public class StudentSubjectEntity implements Serializable {
 				return false;
 		} else {
 
-			if (this.installment.size() != ((StudentSubjectEntity) obj)
+			if (this.installment.size() != ((StudentSubjectData) obj)
 					.getInstallment().size()) {
 				return false;
 			}
 
-			for (String data : ((StudentSubjectEntity) obj).getInstallment()) {
+			for (String data : ((StudentSubjectData) obj).getInstallment()) {
 
 				boolean isFound = false;
 

@@ -1,7 +1,6 @@
 package dmsEntites.expense;
 
 import java.io.Serializable;
-import java.lang.annotation.Target;
 import java.util.List;
 
 import javax.jdo.annotations.Column;
