@@ -17,6 +17,8 @@ import dmsEntites.common.entity.StudentSubjectEntity;
 
 
 @PersistenceCapable(objectIdClass = StudentEntity.class, table = "student_entity", detachable = "true")
+@Join(table="contact_student",column="id_ref",primaryKey="id_pk")
+
 public class StudentEntity implements Serializable {
 
 	@NotPersistent
@@ -45,18 +47,9 @@ public class StudentEntity implements Serializable {
 	@Column(jdbcType = "BIT", name = "schoolOrCollege")
 	private boolean schoolOrCollege = false; // false = school 	//true = college
 
-	@Column(name = "phoneNumberObject", jdbcType = "CLOB")
-	@Persistent(table = "student_phone_number")
-	private String phoneNumberObject; 
-	
-	@Column(name = "addressObject", jdbcType = "CLOB")
-	@Persistent(table = "student_address")
-	private String address;
-	
-
-	@Column(name = "emailIdObject", jdbcType = "CLOB")
-	@Persistent(table = "student_emails")
-	private String emailIds ; 
+	@Column(name = "contactObject", jdbcType = "CLOB")
+	@Persistent(table = "contact_student")
+	private String contactObject;
 	
 	@Persistent(persistenceModifier = PersistenceModifier.PERSISTENT, defaultFetchGroup = "true")
 	@Column(name = "branch")
@@ -123,30 +116,6 @@ public class StudentEntity implements Serializable {
 		this.schoolOrCollege = schoolOrCollege;
 	}
 
-	public String getPhoneNumberObject() {
-		return phoneNumberObject;
-	}
-
-	public void setPhoneNumberObject(String phoneNumberObject) {
-		this.phoneNumberObject = phoneNumberObject;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getEmailIds() {
-		return emailIds;
-	}
-
-	public void setEmailIds(String emailIds) {
-		this.emailIds = emailIds;
-	}
-
 	public BranchEntity getBranch() {
 		return branch;
 	}
@@ -165,14 +134,13 @@ public class StudentEntity implements Serializable {
 
 	public StudentEntity() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public StudentEntity(long studentId, String studentName,
 			Date dateOfJoining, Date registrationDate, Date dateOfBirth,
 			String instituteName, boolean schoolOrCollege,
-			String phoneNumberObject, String address, String emailIds,
-			BranchEntity branch, List<StudentSubjectEntity> subjects) {
+			String contactObject, BranchEntity branch,
+			List<StudentSubjectEntity> subjects) {
 		super();
 		this.studentId = studentId;
 		this.studentName = studentName;
@@ -181,9 +149,7 @@ public class StudentEntity implements Serializable {
 		this.dateOfBirth = dateOfBirth;
 		this.instituteName = instituteName;
 		this.schoolOrCollege = schoolOrCollege;
-		this.phoneNumberObject = phoneNumberObject;
-		this.address = address;
-		this.emailIds = emailIds;
+		this.contactObject = contactObject;
 		this.branch = branch;
 		this.subjects = subjects;
 	}
@@ -194,30 +160,24 @@ public class StudentEntity implements Serializable {
 				+ studentName + ", dateOfJoining=" + dateOfJoining
 				+ ", registrationDate=" + registrationDate + ", dateOfBirth="
 				+ dateOfBirth + ", instituteName=" + instituteName
-				+ ", schoolOrCollege=" + schoolOrCollege
-				+ ", phoneNumberObject=" + phoneNumberObject + ", address="
-				+ address + ", emailIds=" + emailIds + ", branch=" + branch
-				+ ", subjects=" + subjects + "]";
+				+ ", schoolOrCollege=" + schoolOrCollege + ", contactObject="
+				+ contactObject + ", branch=" + branch + ", subjects="
+				+ subjects + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((branch == null) ? 0 : branch.hashCode());
+		result = prime * result
+				+ ((contactObject == null) ? 0 : contactObject.hashCode());
 		result = prime * result
 				+ ((dateOfBirth == null) ? 0 : dateOfBirth.hashCode());
 		result = prime * result
 				+ ((dateOfJoining == null) ? 0 : dateOfJoining.hashCode());
 		result = prime * result
-				+ ((emailIds == null) ? 0 : emailIds.hashCode());
-		result = prime * result
 				+ ((instituteName == null) ? 0 : instituteName.hashCode());
-		result = prime
-				* result
-				+ ((phoneNumberObject == null) ? 0 : phoneNumberObject
-						.hashCode());
 		result = prime
 				* result
 				+ ((registrationDate == null) ? 0 : registrationDate.hashCode());
@@ -239,15 +199,15 @@ public class StudentEntity implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		StudentEntity other = (StudentEntity) obj;
-		if (address == null) {
-			if (other.address != null)
-				return false;
-		} else if (!address.equals(other.address))
-			return false;
 		if (branch == null) {
 			if (other.branch != null)
 				return false;
 		} else if (!branch.equals(other.branch))
+			return false;
+		if (contactObject == null) {
+			if (other.contactObject != null)
+				return false;
+		} else if (!contactObject.equals(other.contactObject))
 			return false;
 		if (dateOfBirth == null) {
 			if (other.dateOfBirth != null)
@@ -259,20 +219,10 @@ public class StudentEntity implements Serializable {
 				return false;
 		} else if (!dateOfJoining.equals(other.dateOfJoining))
 			return false;
-		if (emailIds == null) {
-			if (other.emailIds != null)
-				return false;
-		} else if (!emailIds.equals(other.emailIds))
-			return false;
 		if (instituteName == null) {
 			if (other.instituteName != null)
 				return false;
 		} else if (!instituteName.equals(other.instituteName))
-			return false;
-		if (phoneNumberObject == null) {
-			if (other.phoneNumberObject != null)
-				return false;
-		} else if (!phoneNumberObject.equals(other.phoneNumberObject))
 			return false;
 		if (registrationDate == null) {
 			if (other.registrationDate != null)
@@ -295,6 +245,6 @@ public class StudentEntity implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 	
 }

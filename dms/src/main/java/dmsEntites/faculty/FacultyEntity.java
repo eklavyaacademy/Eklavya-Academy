@@ -7,6 +7,7 @@ import java.util.List;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.Join;
+import javax.jdo.annotations.Joins;
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PersistenceModifier;
@@ -18,6 +19,8 @@ import dmsEntites.common.jsonObject.DegreeObject;
 import dmsEntites.students.StudentEntity;
 
 @PersistenceCapable(objectIdClass = FacultyEntity.class, table = "faculty_entity", detachable = "true")
+@Join(table="contact_faculty",column="id_ref",primaryKey="id_pk")
+
 public class FacultyEntity implements Serializable{
 
 	@NotPersistent
@@ -30,6 +33,10 @@ public class FacultyEntity implements Serializable{
 	@Column(defaultValue = "null", jdbcType = "VARCHAR", name = "faculty_Name")
 	private String facultyName; 
 
+	@Column(jdbcType = "BIT", name = "isActive")
+	private boolean isActive = true; 
+
+	
 	@Column(jdbcType = "DATE", name = "DOJ")
 	private Date dateOfJoining;
 
@@ -48,22 +55,9 @@ public class FacultyEntity implements Serializable{
 	
 		// JSON Object Properties =============================================================
 
-	@Column(name = "phoneNumberObject", jdbcType = "CLOB")
-	@Persistent(table = "faculty_phone_number")
-	private String phoneNumberObject; 
-	
-	@Column(name = "addressObject", jdbcType = "CLOB")
-	@Persistent(table = "faculty_address")
-	private String address;
-	
-	@Column(name = "emailIdObject", jdbcType = "CLOB")
-	@Persistent(table = "faculty_emails")
-	private String emailIds ; 
-	
-	@Column(name = "socialMediaObject", jdbcType = "CLOB")
-	@Persistent(table = "faculty_social_media")
-	private String socialMediaContact ; 
-	
+	@Column(name = "contactObject", jdbcType = "CLOB")
+	@Persistent(table = "contact_faculty")
+	private String contactObject;
 	
 		// JSON List Object Properties =============================================================
 
@@ -90,73 +84,65 @@ public class FacultyEntity implements Serializable{
 		super();
 	}
 
-	public FacultyEntity(long facultyId, String facultyName,
+
+
+	public FacultyEntity(long facultyId, String facultyName, boolean isActive,
 			Date dateOfJoining, Date paymentDate, Date dateOfBirth,
 			long basicSalary, long totalAdvanceAmountPaid,
-			String phoneNumberObject, String address, String emailIds,
-			String socialMediaContact, List<String> advance,
+			String contactObject, List<String> advance,
 			List<DegreeObject> qualification,
 			List<FacultySubjectsEntity> subjects) {
-		
 		super();
 		this.facultyId = facultyId;
 		this.facultyName = facultyName;
+		this.isActive = isActive;
 		this.dateOfJoining = dateOfJoining;
 		this.paymentDate = paymentDate;
 		this.dateOfBirth = dateOfBirth;
 		this.basicSalary = basicSalary;
 		this.totalAdvanceAmountPaid = totalAdvanceAmountPaid;
-		this.phoneNumberObject = phoneNumberObject;
-		this.address = address;
-		this.emailIds = emailIds;
-		this.socialMediaContact = socialMediaContact;
+		this.contactObject = contactObject;
 		this.advance = advance;
 		this.qualification = qualification;
 		this.subjects = subjects;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "FacultyEntity [facultyId=" + facultyId + ", facultyName="
-				+ facultyName + ", dateOfJoining=" + dateOfJoining
-				+ ", paymentDate=" + paymentDate + ", dateOfBirth="
-				+ dateOfBirth + ", basicSalary=" + basicSalary
-				+ ", totalAdvanceAmountPaid=" + totalAdvanceAmountPaid
-				+ ", phoneNumberObject=" + phoneNumberObject + ", address="
-				+ address + ", emailIds=" + emailIds + ", socialMediaContact="
-				+ socialMediaContact + ", advance=" + advance
-				+ ", qualification=" + qualification + ", subjects=" + subjects
-				+ "]";
+				+ facultyName + ", isActive=" + isActive + ", dateOfJoining="
+				+ dateOfJoining + ", paymentDate=" + paymentDate
+				+ ", dateOfBirth=" + dateOfBirth + ", basicSalary="
+				+ basicSalary + ", totalAdvanceAmountPaid="
+				+ totalAdvanceAmountPaid + ", contactObject=" + contactObject
+				+ ", advance=" + advance + ", qualification=" + qualification
+				+ ", subjects=" + subjects + "]";
 	}
+
+
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((advance == null) ? 0 : advance.hashCode());
 		result = prime * result + (int) (basicSalary ^ (basicSalary >>> 32));
+		result = prime * result
+				+ ((contactObject == null) ? 0 : contactObject.hashCode());
 		result = prime * result
 				+ ((dateOfBirth == null) ? 0 : dateOfBirth.hashCode());
 		result = prime * result
 				+ ((dateOfJoining == null) ? 0 : dateOfJoining.hashCode());
-		result = prime * result
-				+ ((emailIds == null) ? 0 : emailIds.hashCode());
 		result = prime * result + (int) (facultyId ^ (facultyId >>> 32));
 		result = prime * result
 				+ ((facultyName == null) ? 0 : facultyName.hashCode());
+		result = prime * result + (isActive ? 1231 : 1237);
 		result = prime * result
 				+ ((paymentDate == null) ? 0 : paymentDate.hashCode());
-		result = prime
-				* result
-				+ ((phoneNumberObject == null) ? 0 : phoneNumberObject
-						.hashCode());
 		result = prime * result
 				+ ((qualification == null) ? 0 : qualification.hashCode());
-		result = prime
-				* result
-				+ ((socialMediaContact == null) ? 0 : socialMediaContact
-						.hashCode());
 		result = prime * result
 				+ ((subjects == null) ? 0 : subjects.hashCode());
 		result = prime
@@ -164,6 +150,8 @@ public class FacultyEntity implements Serializable{
 				+ (int) (totalAdvanceAmountPaid ^ (totalAdvanceAmountPaid >>> 32));
 		return result;
 	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -174,17 +162,17 @@ public class FacultyEntity implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		FacultyEntity other = (FacultyEntity) obj;
-		if (address == null) {
-			if (other.address != null)
-				return false;
-		} else if (!address.equals(other.address))
-			return false;
 		if (advance == null) {
 			if (other.advance != null)
 				return false;
 		} else if (!advance.equals(other.advance))
 			return false;
 		if (basicSalary != other.basicSalary)
+			return false;
+		if (contactObject == null) {
+			if (other.contactObject != null)
+				return false;
+		} else if (!contactObject.equals(other.contactObject))
 			return false;
 		if (dateOfBirth == null) {
 			if (other.dateOfBirth != null)
@@ -196,11 +184,6 @@ public class FacultyEntity implements Serializable{
 				return false;
 		} else if (!dateOfJoining.equals(other.dateOfJoining))
 			return false;
-		if (emailIds == null) {
-			if (other.emailIds != null)
-				return false;
-		} else if (!emailIds.equals(other.emailIds))
-			return false;
 		if (facultyId != other.facultyId)
 			return false;
 		if (facultyName == null) {
@@ -208,25 +191,17 @@ public class FacultyEntity implements Serializable{
 				return false;
 		} else if (!facultyName.equals(other.facultyName))
 			return false;
+		if (isActive != other.isActive)
+			return false;
 		if (paymentDate == null) {
 			if (other.paymentDate != null)
 				return false;
 		} else if (!paymentDate.equals(other.paymentDate))
 			return false;
-		if (phoneNumberObject == null) {
-			if (other.phoneNumberObject != null)
-				return false;
-		} else if (!phoneNumberObject.equals(other.phoneNumberObject))
-			return false;
 		if (qualification == null) {
 			if (other.qualification != null)
 				return false;
 		} else if (!qualification.equals(other.qualification))
-			return false;
-		if (socialMediaContact == null) {
-			if (other.socialMediaContact != null)
-				return false;
-		} else if (!socialMediaContact.equals(other.socialMediaContact))
 			return false;
 		if (subjects == null) {
 			if (other.subjects != null)
@@ -237,12 +212,5 @@ public class FacultyEntity implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 }

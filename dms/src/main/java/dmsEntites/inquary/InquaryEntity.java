@@ -13,7 +13,6 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import dmsEntites.common.jsonObject.InquarySubjectObject;
-import dmsEntites.common.jsonObject.PhoneNumberObject;
 
 /**
  * @author Nitin
@@ -22,7 +21,7 @@ import dmsEntites.common.jsonObject.PhoneNumberObject;
 
 @PersistenceCapable(objectIdClass = InquaryEntity.class, table = "inquary_entity", detachable = "true")
 @Joins ( 
-		 { @Join(table="phone_number",column="id_ref",primaryKey="id_pk"),
+		 { @Join(table="contact_inquary",column="id_ref",primaryKey="id_pk"),
 		   @Join(table="inquary_subject",column="id_ref",primaryKey="id_pk")
 		 }
        )
@@ -60,9 +59,9 @@ public class InquaryEntity implements Serializable {
 	private boolean registeredUser = false; // false = non-register 
 											//true =  registered user
 
-	@Column(name = "phoneNumberObject", jdbcType = "CLOB")
-	@Persistent(table = "phone_number")
-	private String phoneNumberObject;
+	@Column(name = "contactObject", jdbcType = "CLOB")
+	@Persistent(table = "contact_inquary")
+	private String contactObject;
 
 	@Column(name = "inquarySubjectObject", jdbcType = "CLOB")
 	@Persistent(table = "inquary_subject")
@@ -109,14 +108,12 @@ public class InquaryEntity implements Serializable {
 		this.inquaryDate = inquaryDate;
 	}
 
-
-
-	public String getPhoneNumberObject() {
-		return phoneNumberObject;
+	public String getContactObject() {
+		return contactObject;
 	}
 
-	public void setPhoneNumberObject(String phoneNumberObject) {
-		this.phoneNumberObject = phoneNumberObject;
+	public void setContactObject(String contactObject) {
+		this.contactObject = contactObject;
 	}
 
 	public String getInquarySubjectObject() {
@@ -164,7 +161,7 @@ public class InquaryEntity implements Serializable {
 	public InquaryEntity(long inqaryId, String studentName, String branch,
 			String instituteName, Date inquaryDate, boolean schoolOrCollege,
 			boolean subjectMedium, boolean registeredUser,
-			String phoneNumberObject, String inquarySubjectObject) {
+			String contactObject, String inquarySubjectObject) {
 		super();
 		this.inqaryId = inqaryId;
 		this.studentName = studentName;
@@ -174,7 +171,7 @@ public class InquaryEntity implements Serializable {
 		this.schoolOrCollege = schoolOrCollege;
 		this.subjectMedium = subjectMedium;
 		this.registeredUser = registeredUser;
-		this.phoneNumberObject = phoneNumberObject;
+		this.contactObject = contactObject;
 		this.inquarySubjectObject = inquarySubjectObject;
 	}
 
@@ -186,29 +183,29 @@ public class InquaryEntity implements Serializable {
 				+ instituteName + ", inquaryDate=" + inquaryDate
 				+ ", schoolOrCollege=" + schoolOrCollege + ", subjectMedium="
 				+ subjectMedium + ", registeredUser=" + registeredUser
-				+ ", phoneNumberJSONObject=" + phoneNumberObject
+				+ ", phoneNumberJSONObject=" + contactObject
 				+ ", inquarySubjectJSONObject=" + inquarySubjectObject
 				+ "]";
 	}
+
+		
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((branch == null) ? 0 : branch.hashCode());
+		result = prime * result
+				+ ((contactObject == null) ? 0 : contactObject.hashCode());
 		result = prime * result + (int) (inqaryId ^ (inqaryId >>> 32));
 		result = prime * result
 				+ ((inquaryDate == null) ? 0 : inquaryDate.hashCode());
 		result = prime
 				* result
-				+ ((inquarySubjectObject == null) ? 0
-						: inquarySubjectObject.hashCode());
+				+ ((inquarySubjectObject == null) ? 0 : inquarySubjectObject
+						.hashCode());
 		result = prime * result
 				+ ((instituteName == null) ? 0 : instituteName.hashCode());
-		result = prime
-				* result
-				+ ((phoneNumberObject == null) ? 0 : phoneNumberObject
-						.hashCode());
 		result = prime * result + (registeredUser ? 1231 : 1237);
 		result = prime * result + (schoolOrCollege ? 1231 : 1237);
 		result = prime * result
@@ -231,6 +228,11 @@ public class InquaryEntity implements Serializable {
 				return false;
 		} else if (!branch.equals(other.branch))
 			return false;
+		if (contactObject == null) {
+			if (other.contactObject != null)
+				return false;
+		} else if (!contactObject.equals(other.contactObject))
+			return false;
 		if (inqaryId != other.inqaryId)
 			return false;
 		if (inquaryDate == null) {
@@ -241,18 +243,12 @@ public class InquaryEntity implements Serializable {
 		if (inquarySubjectObject == null) {
 			if (other.inquarySubjectObject != null)
 				return false;
-		} else if (!inquarySubjectObject
-				.equals(other.inquarySubjectObject))
+		} else if (!inquarySubjectObject.equals(other.inquarySubjectObject))
 			return false;
 		if (instituteName == null) {
 			if (other.instituteName != null)
 				return false;
 		} else if (!instituteName.equals(other.instituteName))
-			return false;
-		if (phoneNumberObject == null) {
-			if (other.phoneNumberObject != null)
-				return false;
-		} else if (!phoneNumberObject.equals(other.phoneNumberObject))
 			return false;
 		if (registeredUser != other.registeredUser)
 			return false;
@@ -268,8 +264,6 @@ public class InquaryEntity implements Serializable {
 		return true;
 	}
 
-	
-
 	// Supportive methods =============================================================
 	public void updateAll(InquaryEntity input) {
 		this.inqaryId = input.getInqaryId();
@@ -280,12 +274,12 @@ public class InquaryEntity implements Serializable {
 		this.schoolOrCollege = input.isSchoolOrCollege();
 		this.subjectMedium = input.isSubjectMedium();
 		this.registeredUser = input.isRegisteredUser();
-		this.phoneNumberObject = input.getPhoneNumberObject();
+		this.contactObject = input.getContactObject();
 		this.inquarySubjectObject = input.getInquarySubjectObject();
 	}
 	
 	public void updatePhoneNumber(InquaryEntity input){
-		this.phoneNumberObject = input.getPhoneNumberObject();
+		this.contactObject = input.getContactObject();
 	}
 	
 	public void updateRegisterUserProperty(InquaryEntity input){
