@@ -69,7 +69,7 @@ public class FacultyEntity implements Serializable {
 
 	// Interrelated Properties =============================================================
 
-	@Persistent(defaultFetchGroup = "true", persistenceModifier = PersistenceModifier.PERSISTENT)
+	@Persistent(defaultFetchGroup = "true", persistenceModifier = PersistenceModifier.PERSISTENT, dependent="true")
 	@Join(table = "faculty_subjects")
 	@Column(name = "faculty_subjects")
 	private List<FacultySubjectsEntity> subjects;
