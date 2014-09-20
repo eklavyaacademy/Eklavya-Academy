@@ -1,6 +1,7 @@
-package dmsDAO.subjectFacultyRelation;
+package dmsDAO.inquary;
 
 import java.rmi.NoSuchObjectException;
+import java.util.Date;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
@@ -11,14 +12,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import dmsDAO.persistentUtil.PersistentFactory;
-import dmsEntites.subjectFacultyRelation.SubjectFacultyRelationEntity;
+import dmsEntites.inquary.InquaryEntity;
 
-public class SubjectFacultyRelationDAO {
+public class InquaryDAO {
+
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(SubjectFacultyRelationDAO.class);
+			.getLogger(InquaryDAO.class);
 
-	public static SubjectFacultyRelationEntity getSubjectFacultyRelationEntityBySubjectId(
+	
+	
+	public static InquaryEntity getInquaryObjectByInquaryId(
 			long id) {
 
 		// get persistent manager
@@ -27,13 +31,13 @@ public class SubjectFacultyRelationDAO {
 		// get transaction
 		Transaction tx = pm.currentTransaction();
 
-		SubjectFacultyRelationEntity result = null;
+		InquaryEntity result = null;
 
 		try {
 
 			tx.begin();
 
-			result = getSubjectFacultyRelationEntityBySubjectId(pm, id);
+			result = getInquaryObjectByInquaryId(pm, id);
 
 			pm.makePersistent(result);
 
@@ -42,7 +46,7 @@ public class SubjectFacultyRelationDAO {
 		} catch (Throwable e) {
 
 			logger.error(
-					"Unknown exception occurred while trying to fetch SubjectFacultyRelationEntity by id: {}",
+					"Unknown exception occurred while trying to fetch InquaryEntity by id: {}",
 					id, e);
 
 		} finally {
@@ -58,18 +62,18 @@ public class SubjectFacultyRelationDAO {
 
 	}
 
-	public static SubjectFacultyRelationEntity getSubjectFacultyRelationEntityBySubjectId(
+	public static InquaryEntity getInquaryObjectByInquaryId(
 			PersistenceManager pm, long id) throws Throwable {
 
-		Query query = pm.newQuery(SubjectFacultyRelationEntity.class);
+		Query query = pm.newQuery(InquaryEntity.class);
 
 		try {
 
-			query.setFilter("this.subjectId == subjectId");
-			query.declareParameters("long subjectId");
+			query.setFilter("this.inqaryId == inqaryId");
+			query.declareParameters("long inqaryId");
 			query.setUnique(true);
 
-			SubjectFacultyRelationEntity result = (SubjectFacultyRelationEntity) query
+			InquaryEntity result = (InquaryEntity) query
 					.execute(id);
 
 			if (result == null)
@@ -85,9 +89,9 @@ public class SubjectFacultyRelationDAO {
 
 	}
 	
+
 	
-	
-	public static List<SubjectFacultyRelationEntity> getAllSubjectFacultyRelationEntity() {
+	public static List<InquaryEntity> getAllInquaryObject() {
 
 		// get persistent manager
 		PersistenceManager pm = PersistentFactory.getPersistentManager();
@@ -95,13 +99,13 @@ public class SubjectFacultyRelationDAO {
 		// get transaction
 		Transaction tx = pm.currentTransaction();
 
-		List<SubjectFacultyRelationEntity> result = null;
+		List<InquaryEntity> result = null;
 
 		try {
 
 			tx.begin();
 
-			result = getAllSubjectFacultyRelationEntity(pm);
+			result = getAllInquaryObject(pm);
 
 			pm.makePersistent(result);
 
@@ -110,7 +114,7 @@ public class SubjectFacultyRelationDAO {
 		} catch (Throwable e) {
 
 			logger.error(
-					"Unknown exception occurred while trying to fetch all SubjectFacultyRelationEntity ", e);
+					"Unknown exception occurred while trying to fetch all InquaryEntity ", e);
 
 		} finally {
 
@@ -125,15 +129,15 @@ public class SubjectFacultyRelationDAO {
 
 	}
 
-	public static List<SubjectFacultyRelationEntity> getAllSubjectFacultyRelationEntity(
+	public static List<InquaryEntity> getAllInquaryObject(
 			PersistenceManager pm) throws Throwable {
 
-		Query query = pm.newQuery(SubjectFacultyRelationEntity.class);
+		Query query = pm.newQuery(InquaryEntity.class);
 
 		try {
 
 			@SuppressWarnings("unchecked")
-			List<SubjectFacultyRelationEntity> result = (List<SubjectFacultyRelationEntity>) query
+			List<InquaryEntity> result = (List<InquaryEntity>) query
 					.execute();
 
 			if (result == null)
@@ -150,9 +154,11 @@ public class SubjectFacultyRelationDAO {
 	}
 	
 	
+	
 
-	public static SubjectFacultyRelationEntity getSubjectFacultyRelationEntityById(
-			long id) {
+	
+	public static InquaryEntity getInquaryObjectByInquaryDate(
+			Date date) {
 
 		// get persistent manager
 		PersistenceManager pm = PersistentFactory.getPersistentManager();
@@ -160,13 +166,13 @@ public class SubjectFacultyRelationDAO {
 		// get transaction
 		Transaction tx = pm.currentTransaction();
 
-		SubjectFacultyRelationEntity result = null;
+		InquaryEntity result = null;
 
 		try {
 
 			tx.begin();
 
-			result = getSubjectFacultyRelationEntityById(pm, id);
+			result = getInquaryObjectByInquaryDate(pm, date);
 
 			pm.makePersistent(result);
 
@@ -175,8 +181,8 @@ public class SubjectFacultyRelationDAO {
 		} catch (Throwable e) {
 
 			logger.error(
-					"Unknown exception occurred while trying to fetch SubjectFacultyRelationEntity by id: {}",
-					id, e);
+					"Unknown exception occurred while trying to fetch InquaryEntity by date: {}",
+					date, e);
 
 		} finally {
 
@@ -191,35 +197,39 @@ public class SubjectFacultyRelationDAO {
 
 	}
 
-	public static SubjectFacultyRelationEntity getSubjectFacultyRelationEntityById(
-			PersistenceManager pm, long id) throws Throwable {
+	public static InquaryEntity getInquaryObjectByInquaryDate(
+			PersistenceManager pm, Date date ) throws Throwable {
 
-		Query query = pm.newQuery(SubjectFacultyRelationEntity.class);
+		Query query = pm.newQuery(InquaryEntity.class);
 
 		try {
 
-			query.setFilter("this.id == id");
-			query.declareParameters("long id");
+			query.setFilter("this.inquaryDate == inquaryDate");
+			query.declareParameters("long inquaryDate");
 			query.setUnique(true);
 
-			SubjectFacultyRelationEntity result = (SubjectFacultyRelationEntity) query
-					.execute(id);
+			InquaryEntity result = (InquaryEntity) query
+					.execute(date);
 
 			if (result == null)
-				throw new NoSuchObjectException("no object for id : " + id);
+				throw new NoSuchObjectException("no object for date : " + date);
 
 			return result;
 
 		} catch (Throwable e) {
 
-			logger.error(" failed to get object by id :{} ", id);
+			logger.error(" failed to get object by date :{} ", date);
 			throw e;
 		}
 
 	}
+	
+	
+	
 
-	public static boolean saveSubjectFacultyRelationEntity(
-			SubjectFacultyRelationEntity input) {
+
+	public static boolean saveInquaryEntity(
+			InquaryEntity input) {
 
 		boolean success = false;
 
@@ -233,13 +243,13 @@ public class SubjectFacultyRelationDAO {
 
 			tx.begin();
 
-			success = saveSubjectFacultyRelationEntity(pm, input);
+			success = saveInquaryEntity(pm, input);
 
 			tx.commit();
 
 		} catch (Throwable e) {
 			logger.error(
-					"Unknown exception occurred while trying to create SubjectFacultyRelationEntity ",
+					"Unknown exception occurred while trying to create InquaryEntity ",
 					e);
 		} finally {
 
@@ -254,14 +264,14 @@ public class SubjectFacultyRelationDAO {
 
 	}
 
-	private static boolean saveSubjectFacultyRelationEntity(
-			PersistenceManager pm, SubjectFacultyRelationEntity input) {
+	private static boolean saveInquaryEntity(
+			PersistenceManager pm, InquaryEntity input) {
 
 		return (pm.makePersistent(input) != null ? true : false);
 	}
 
-	public static boolean saveMultipleSubjectFacultyRelationEntity(
-			List<SubjectFacultyRelationEntity> input) {
+	public static boolean saveMultipleInquaryEntity(
+			List<InquaryEntity> input) {
 
 		boolean success = false;
 
@@ -275,13 +285,13 @@ public class SubjectFacultyRelationDAO {
 
 			tx.begin();
 
-			success = saveMultipleSubjectFacultyRelationEntity(pm, input);
+			success = saveMultipleInquaryEntity(pm, input);
 
 			tx.commit();
 
 		} catch (Throwable e) {
 			logger.error(
-					"Unknown exception occurred while trying to create SubjectFacultyRelationEntity ",
+					"Unknown exception occurred while trying to create InquaryEntity ",
 					e);
 		} finally {
 
@@ -296,14 +306,16 @@ public class SubjectFacultyRelationDAO {
 
 	}
 
-	private static boolean saveMultipleSubjectFacultyRelationEntity(
-			PersistenceManager pm, List<SubjectFacultyRelationEntity> input) {
+	private static boolean saveMultipleInquaryEntity(
+			PersistenceManager pm, List<InquaryEntity> input) {
 
 		return (pm.makePersistentAll(input) != null ? true : false);
 	}
 
-	public static boolean updateSubjectFacultyRelationEntity(
-			SubjectFacultyRelationEntity input) {
+	
+
+	public static boolean updateInquaryEntity(
+			InquaryEntity input) {
 
 		boolean success = false;
 
@@ -316,7 +328,7 @@ public class SubjectFacultyRelationDAO {
 		try {
 			tx.begin();
 
-			success = updateSubjectFacultyRelationEntity(pm, input);
+			success = updateInquaryEntity(pm, input);
 
 			tx.commit();
 		} catch (Throwable e) {
@@ -335,13 +347,12 @@ public class SubjectFacultyRelationDAO {
 		return success;
 	}
 
-	private static boolean updateSubjectFacultyRelationEntity(
-			PersistenceManager pm, SubjectFacultyRelationEntity input)
+	private static boolean updateInquaryEntity(
+			PersistenceManager pm, InquaryEntity input)
 			throws Throwable {
 
-		SubjectFacultyRelationEntity dbObject = pm
-				.detachCopy(getSubjectFacultyRelationEntityById(pm,
-						input.getId()));
+		InquaryEntity dbObject = pm
+				.detachCopy(getInquaryObjectByInquaryId(pm,	input.getInqaryId()));
 
 		dbObject.updateAll(input);
 
@@ -349,9 +360,11 @@ public class SubjectFacultyRelationDAO {
 	}
 
 	
-	public static boolean updateSubjectFacultyRelationEntityFaculties(
-			SubjectFacultyRelationEntity input) {
+	
 
+	
+
+	public static boolean removeInquaryEntity(long id) {
 		boolean success = false;
 
 		// get persistent manager
@@ -363,55 +376,7 @@ public class SubjectFacultyRelationDAO {
 		try {
 			tx.begin();
 
-			success = updateSubjectFacultyRelationEntityFaculties(pm, input);
-
-			tx.commit();
-		} catch (Throwable e) {
-			logger.error(
-					"Unknown exception occurred while trying to update subject ",
-					e);
-		} finally {
-
-			// rollback in case of error
-			if (tx.isActive()) {
-				tx.rollback();
-				logger.error("failed to commit, rolling back tranaction");
-			}
-		}
-
-		return success;
-	}
-
-	private static boolean updateSubjectFacultyRelationEntityFaculties(
-			PersistenceManager pm, SubjectFacultyRelationEntity input)
-			throws Throwable {
-
-		SubjectFacultyRelationEntity dbObject = pm
-				.detachCopy(getSubjectFacultyRelationEntityById(pm,
-						input.getId()));
-
-		dbObject.updateFaculties(input);
-
-		return (pm.makePersistent(dbObject) != null ? true : false);
-	}
-	
-	
-	
-	
-
-	public static boolean removeSubjectFacultyRelationEntity(long id) {
-		boolean success = false;
-
-		// get persistent manager
-		PersistenceManager pm = PersistentFactory.getPersistentManager();
-
-		// get transaction
-		Transaction tx = pm.currentTransaction();
-
-		try {
-			tx.begin();
-
-			success = removeSubjectFacultyRelationEntity(pm, id);
+			success = removeInquaryEntity(pm, id);
 
 			tx.commit();
 
@@ -433,11 +398,11 @@ public class SubjectFacultyRelationDAO {
 		return success;
 	}
 
-	private static boolean removeSubjectFacultyRelationEntity(PersistenceManager pm, long id)
+	private static boolean removeInquaryEntity(PersistenceManager pm, long id)
 			throws Throwable {
 		boolean success = true;
 
-		SubjectFacultyRelationEntity dbobject = getSubjectFacultyRelationEntityBySubjectId(pm, id);
+		InquaryEntity dbobject = getInquaryObjectByInquaryId(pm, id);
 		pm.deletePersistent(dbobject);
 
 		return success;
@@ -445,7 +410,7 @@ public class SubjectFacultyRelationDAO {
 	
 	
 
-	public static boolean removeAllSubjectFacultyRelationEntity() {
+	public static boolean removeAllInquaryEntity() {
 		boolean success = false;
 
 		// get persistent manager
@@ -457,7 +422,7 @@ public class SubjectFacultyRelationDAO {
 		try {
 			tx.begin();
 
-			success = removeAllSubjectFacultyRelationEntity(pm);
+			success = removeAllInquaryEntity(pm);
 
 			tx.commit();
 
@@ -478,12 +443,12 @@ public class SubjectFacultyRelationDAO {
 		return success;
 	}
 
-	private static boolean removeAllSubjectFacultyRelationEntity(PersistenceManager pm)
+	private static boolean removeAllInquaryEntity(PersistenceManager pm)
 			throws Throwable {
 		
 		boolean success = true;
 
-		List<SubjectFacultyRelationEntity> dbobjects = getAllSubjectFacultyRelationEntity(pm);
+		List<InquaryEntity> dbobjects = getAllInquaryObject(pm);
 		pm.deletePersistentAll(dbobjects);
 
 		return success;
@@ -491,7 +456,8 @@ public class SubjectFacultyRelationDAO {
 
 	
 
-	public static List<SubjectFacultyRelationEntity> getSubjectFacultyRelationEntityByMultipleSubjectIds(
+
+	public static List<InquaryEntity> getInquaryEntityByMultipleInquaryIds(
 			List<Long> ids) {
 		// get persistent manager
 		PersistenceManager pm = PersistentFactory.getPersistentManager();
@@ -499,12 +465,12 @@ public class SubjectFacultyRelationDAO {
 		// get transaction
 		Transaction tx = pm.currentTransaction();
 
-		List<SubjectFacultyRelationEntity> result = null;
+		List<InquaryEntity> result = null;
 
 		try {
 			tx.begin();
 
-			result = getSubjectFacultyRelationEntityByMultipleSubjectIds(pm, ids);
+			result = getInquaryEntityByMultipleInquaryIds(pm, ids);
 
 			pm.makeTransientAll(result);
 
@@ -528,17 +494,17 @@ public class SubjectFacultyRelationDAO {
 
 	}
 
-	private static List<SubjectFacultyRelationEntity> getSubjectFacultyRelationEntityByMultipleSubjectIds(
+	private static List<InquaryEntity> getInquaryEntityByMultipleInquaryIds(
 			PersistenceManager pm, List<Long> ids) throws Throwable {
 
-		Query query = pm.newQuery(SubjectFacultyRelationEntity.class);
+		Query query = pm.newQuery(InquaryEntity.class);
 
 		try {
 
 			query.setFilter(getQueryForMultipleId(ids));
 
 			@SuppressWarnings("unchecked")
-			List<SubjectFacultyRelationEntity> subject = (List<SubjectFacultyRelationEntity>) query
+			List<InquaryEntity> subject = (List<InquaryEntity>) query
 					.execute();
 
 			if (subject == null)
@@ -566,6 +532,8 @@ public class SubjectFacultyRelationDAO {
 		}
 		return qstring.toString();
 	}
-
+	
+	
+	
+	
 }
-

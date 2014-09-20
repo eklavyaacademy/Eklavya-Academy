@@ -255,7 +255,7 @@ public class SubjectDAO {
 			throw e;
 		}
 	}
-/*
+
 	public static List<SubjectEntity> getSubjectByMultipleSubjectIds(
 			List<Long> ids) {
 		// get persistent manager
@@ -304,7 +304,7 @@ public class SubjectDAO {
 
 			@SuppressWarnings("unchecked")
 			List<SubjectEntity> subject = (List<SubjectEntity>) query
-					.execute(ids);
+					.execute();
 
 			if (subject == null)
 				throw new NoSuchObjectException("no object for id : " + ids);
@@ -329,7 +329,7 @@ public class SubjectDAO {
 			}
 		}
 		return qstring.toString();
-	}*/
+	}
 
 	public static boolean removeSubject(long id) {
 		boolean success = false;
@@ -418,7 +418,7 @@ public class SubjectDAO {
 
 		return success;
 	}
-/*
+
 	public static boolean removeMultipleSubjectByIds(List<Long> id) {
 		boolean success = false;
 
@@ -461,6 +461,6 @@ public class SubjectDAO {
 		pm.deletePersistentAll(dbSubject);
 
 		return success;
-	}*/
+	}
 
 }
