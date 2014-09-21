@@ -1,29 +1,22 @@
-package dmsDAO.inquary;
+package dmsDAO.students;
 
 import java.rmi.NoSuchObjectException;
-import java.util.Date;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import dmsDAO.persistentUtil.PersistentFactory;
-import dmsEntites.inquary.InquaryEntity;
+import dmsEntites.students.StudentEntity;
 
-public class InquaryDAO {
-
+public class StudentDAO {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(InquaryDAO.class);
+			.getLogger(StudentDAO.class);
 
-	
-	
-	public static InquaryEntity getInquaryObjectByInquaryId(
-			long id) {
+	public static StudentEntity getStudentObjectById(long id) {
 
 		// get persistent manager
 		PersistenceManager pm = PersistentFactory.getPersistentManager();
@@ -31,13 +24,13 @@ public class InquaryDAO {
 		// get transaction
 		Transaction tx = pm.currentTransaction();
 
-		InquaryEntity result = null;
+		StudentEntity result = null;
 
 		try {
 
 			tx.begin();
 
-			result = getInquaryObjectByInquaryId(pm, id);
+			result = getStudentObjectById(pm, id);
 
 			pm.makePersistent(result);
 
@@ -46,7 +39,7 @@ public class InquaryDAO {
 		} catch (Throwable e) {
 
 			logger.error(
-					"Unknown exception occurred while trying to fetch InquaryEntity by id: {}",
+					"Unknown exception occurred while trying to fetch StudentEntity by id: {}",
 					id, e);
 
 		} finally {
@@ -62,19 +55,18 @@ public class InquaryDAO {
 
 	}
 
-	private static InquaryEntity getInquaryObjectByInquaryId(
-			PersistenceManager pm, long id) throws Throwable {
+	private static StudentEntity getStudentObjectById(PersistenceManager pm,
+			long id) throws Throwable {
 
-		Query query = pm.newQuery(InquaryEntity.class);
+		Query query = pm.newQuery(StudentEntity.class);
 
 		try {
 
-			query.setFilter("this.inqaryId == inqaryId");
-			query.declareParameters("long inqaryId");
+			query.setFilter("this.studentId == studentId");
+			query.declareParameters("long studentId");
 			query.setUnique(true);
 
-			InquaryEntity result = (InquaryEntity) query
-					.execute(id);
+			StudentEntity result = (StudentEntity) query.execute(id);
 
 			if (result == null)
 				throw new NoSuchObjectException("no object for id : " + id);
@@ -88,10 +80,8 @@ public class InquaryDAO {
 		}
 
 	}
-	
 
-	
-	public static List<InquaryEntity> getAllInquaryObject() {
+	public static List<StudentEntity> getAllStudentObject() {
 
 		// get persistent manager
 		PersistenceManager pm = PersistentFactory.getPersistentManager();
@@ -99,22 +89,23 @@ public class InquaryDAO {
 		// get transaction
 		Transaction tx = pm.currentTransaction();
 
-		List<InquaryEntity> result = null;
+		List<StudentEntity> result = null;
 
 		try {
 
 			tx.begin();
 
-			result = getAllInquaryObject(pm);
+			result = getAllStudentObject(pm);
 
-			pm.makePersistent(result);
+			pm.makePersistentAll(result);
 
 			tx.commit();
 
 		} catch (Throwable e) {
 
 			logger.error(
-					"Unknown exception occurred while trying to fetch all InquaryEntity ", e);
+					"Unknown exception occurred while trying to fetch All StudentEntity ",
+					e);
 
 		} finally {
 
@@ -129,36 +120,31 @@ public class InquaryDAO {
 
 	}
 
-	public static List<InquaryEntity> getAllInquaryObject(
-			PersistenceManager pm) throws Throwable {
+	private static List<StudentEntity> getAllStudentObject(PersistenceManager pm)
+			throws Throwable {
 
-		Query query = pm.newQuery(InquaryEntity.class);
+		Query query = pm.newQuery(StudentEntity.class);
 
 		try {
 
 			@SuppressWarnings("unchecked")
-			List<InquaryEntity> result = (List<InquaryEntity>) query
-					.execute();
+			List<StudentEntity> result = (List<StudentEntity>) query.execute();
 
 			if (result == null)
-				throw new NoSuchObjectException("no object available : " );
+				throw new NoSuchObjectException("no object ");
 
 			return result;
 
 		} catch (Throwable e) {
 
-			logger.error(" failed to get All object by id ");
+			logger.error(" failed to get All object ");
 			throw e;
 		}
 
 	}
-	
-	
-	
 
-	
-	public static InquaryEntity getInquaryObjectByInquaryDate(
-			Date date) {
+	public static List<StudentEntity> getStudentObjectByStudentName(
+			String studentName) {
 
 		// get persistent manager
 		PersistenceManager pm = PersistentFactory.getPersistentManager();
@@ -166,13 +152,13 @@ public class InquaryDAO {
 		// get transaction
 		Transaction tx = pm.currentTransaction();
 
-		InquaryEntity result = null;
+		List<StudentEntity> result = null;
 
 		try {
 
 			tx.begin();
 
-			result = getInquaryObjectByInquaryDate(pm, date);
+			result = getStudentObjectByStudentName(pm, studentName);
 
 			pm.makePersistent(result);
 
@@ -181,8 +167,8 @@ public class InquaryDAO {
 		} catch (Throwable e) {
 
 			logger.error(
-					"Unknown exception occurred while trying to fetch InquaryEntity by date: {}",
-					date, e);
+					"Unknown exception occurred while trying to fetch StudentEntity by id: {}",
+					studentName, e);
 
 		} finally {
 
@@ -197,39 +183,34 @@ public class InquaryDAO {
 
 	}
 
-	public static InquaryEntity getInquaryObjectByInquaryDate(
-			PersistenceManager pm, Date date ) throws Throwable {
+	private static List<StudentEntity> getStudentObjectByStudentName(
+			PersistenceManager pm, String name) throws Throwable {
 
-		Query query = pm.newQuery(InquaryEntity.class);
+		Query query = pm.newQuery(StudentEntity.class);
 
 		try {
 
-			query.setFilter("this.inquaryDate == inquaryDate");
-			query.declareParameters("long inquaryDate");
-			query.setUnique(true);
+			query.setFilter("this.studentName == studentName");
+			query.declareParameters("String studentName");
 
-			InquaryEntity result = (InquaryEntity) query
-					.execute(date);
+			@SuppressWarnings("unchecked")
+			List<StudentEntity> result = (List<StudentEntity>) query
+					.execute(name);
 
 			if (result == null)
-				throw new NoSuchObjectException("no object for date : " + date);
+				throw new NoSuchObjectException("no object for name : " + name);
 
 			return result;
 
 		} catch (Throwable e) {
 
-			logger.error(" failed to get object by date :{} ", date);
+			logger.error(" failed to get object by name :{} ", name);
 			throw e;
 		}
 
 	}
-	
-	
-	
 
-
-	public static boolean saveInquaryEntity(
-			InquaryEntity input) {
+	public static boolean saveStudentEntity(StudentEntity input) {
 
 		boolean success = false;
 
@@ -243,13 +224,13 @@ public class InquaryDAO {
 
 			tx.begin();
 
-			success = saveInquaryEntity(pm, input);
+			success = saveStudentEntity(pm, input);
 
 			tx.commit();
 
 		} catch (Throwable e) {
 			logger.error(
-					"Unknown exception occurred while trying to create InquaryEntity ",
+					"Unknown exception occurred while trying to create StudentEntity ",
 					e);
 		} finally {
 
@@ -264,14 +245,13 @@ public class InquaryDAO {
 
 	}
 
-	private static boolean saveInquaryEntity(
-			PersistenceManager pm, InquaryEntity input) {
+	private static boolean saveStudentEntity(PersistenceManager pm,
+			StudentEntity input) {
 
 		return (pm.makePersistent(input) != null ? true : false);
 	}
 
-	public static boolean saveMultipleInquaryEntity(
-			List<InquaryEntity> input) {
+	public static boolean saveMultipleStudentEntity(List<StudentEntity> input) {
 
 		boolean success = false;
 
@@ -285,13 +265,13 @@ public class InquaryDAO {
 
 			tx.begin();
 
-			success = saveMultipleInquaryEntity(pm, input);
+			success = saveMultipleStudentEntity(pm, input);
 
 			tx.commit();
 
 		} catch (Throwable e) {
 			logger.error(
-					"Unknown exception occurred while trying to create InquaryEntity ",
+					"Unknown exception occurred while trying to create StudentEntity ",
 					e);
 		} finally {
 
@@ -306,16 +286,13 @@ public class InquaryDAO {
 
 	}
 
-	private static boolean saveMultipleInquaryEntity(
-			PersistenceManager pm, List<InquaryEntity> input) {
+	private static boolean saveMultipleStudentEntity(PersistenceManager pm,
+			List<StudentEntity> input) {
 
 		return (pm.makePersistentAll(input) != null ? true : false);
 	}
 
-	
-
-	public static boolean updateInquaryEntity(
-			InquaryEntity input) {
+	public static boolean updateStudentEntity(StudentEntity input) {
 
 		boolean success = false;
 
@@ -328,7 +305,7 @@ public class InquaryDAO {
 		try {
 			tx.begin();
 
-			success = updateInquaryEntity(pm, input);
+			success = updateStudentEntity(pm, input);
 
 			tx.commit();
 		} catch (Throwable e) {
@@ -347,24 +324,18 @@ public class InquaryDAO {
 		return success;
 	}
 
-	private static boolean updateInquaryEntity(
-			PersistenceManager pm, InquaryEntity input)
-			throws Throwable {
+	private static boolean updateStudentEntity(PersistenceManager pm,
+			StudentEntity input) throws Throwable {
 
-		InquaryEntity dbObject = pm
-				.detachCopy(getInquaryObjectByInquaryId(pm,	input.getInqaryId()));
+		StudentEntity dbObject = pm.detachCopy(getStudentObjectById(pm,
+				input.getStudentId()));
 
 		dbObject.updateAll(input);
 
 		return (pm.makePersistent(dbObject) != null ? true : false);
 	}
 
-	
-	
-
-	
-
-	public static boolean removeInquaryEntityById(long id) {
+	public static boolean removeStudentEntityById(long id) {
 		boolean success = false;
 
 		// get persistent manager
@@ -376,7 +347,7 @@ public class InquaryDAO {
 		try {
 			tx.begin();
 
-			success = removeInquaryEntityById(pm, id);
+			success = removeStudentEntityById(pm, id);
 
 			tx.commit();
 
@@ -398,19 +369,17 @@ public class InquaryDAO {
 		return success;
 	}
 
-	private static boolean removeInquaryEntityById(PersistenceManager pm, long id)
-			throws Throwable {
+	private static boolean removeStudentEntityById(PersistenceManager pm,
+			long id) throws Throwable {
 		boolean success = true;
 
-		InquaryEntity dbobject = getInquaryObjectByInquaryId(pm, id);
+		StudentEntity dbobject = getStudentObjectById(pm, id);
 		pm.deletePersistent(dbobject);
 
 		return success;
 	}
-	
-	
 
-	public static boolean removeAllInquaryEntity() {
+	public static boolean removeAllStudentEntity() {
 		boolean success = false;
 
 		// get persistent manager
@@ -422,14 +391,15 @@ public class InquaryDAO {
 		try {
 			tx.begin();
 
-			success = removeAllInquaryEntity(pm);
+			success = removeAllStudentEntity(pm);
 
 			tx.commit();
 
 		} catch (Throwable e) {
 
 			logger.error(
-					"Unknown exception occurred while trying to delete All subject ", e);
+					"Unknown exception occurred while trying to delete All subject ",
+					e);
 
 		} finally {
 
@@ -443,34 +413,32 @@ public class InquaryDAO {
 		return success;
 	}
 
-	private static boolean removeAllInquaryEntity(PersistenceManager pm)
+	private static boolean removeAllStudentEntity(PersistenceManager pm)
 			throws Throwable {
-		
+
 		boolean success = true;
 
-		List<InquaryEntity> dbobjects = getAllInquaryObject(pm);
+		List<StudentEntity> dbobjects = getAllStudentObject(pm);
 		pm.deletePersistentAll(dbobjects);
 
 		return success;
 	}
 
-	
-
-
-	public static List<InquaryEntity> getInquaryEntityByMultipleInquaryIds(
+	public static List<StudentEntity> getStudentEntityByMultipleStudentIds(
 			List<Long> ids) {
+
 		// get persistent manager
 		PersistenceManager pm = PersistentFactory.getPersistentManager();
 
 		// get transaction
 		Transaction tx = pm.currentTransaction();
 
-		List<InquaryEntity> result = null;
+		List<StudentEntity> result = null;
 
 		try {
 			tx.begin();
 
-			result = getInquaryEntityByMultipleInquaryIds(pm, ids);
+			result = getStudentEntityByMultipleStudentIds(pm, ids);
 
 			pm.makeTransientAll(result);
 
@@ -494,18 +462,17 @@ public class InquaryDAO {
 
 	}
 
-	private static List<InquaryEntity> getInquaryEntityByMultipleInquaryIds(
+	private static List<StudentEntity> getStudentEntityByMultipleStudentIds(
 			PersistenceManager pm, List<Long> ids) throws Throwable {
 
-		Query query = pm.newQuery(InquaryEntity.class);
+		Query query = pm.newQuery(StudentEntity.class);
 
 		try {
 
 			query.setFilter(getQueryForMultipleId(ids));
 
 			@SuppressWarnings("unchecked")
-			List<InquaryEntity> subject = (List<InquaryEntity>) query
-					.execute();
+			List<StudentEntity> subject = (List<StudentEntity>) query.execute();
 
 			if (subject == null)
 				throw new NoSuchObjectException("no object for id : " + ids);
@@ -516,11 +483,10 @@ public class InquaryDAO {
 			throw e;
 		}
 	}
-	
 
 	private static String getQueryForMultipleId(List<Long> ids) {
 		StringBuilder qstring = new StringBuilder();
-		String baseString = "this.subjectId==";
+		String baseString = "this.studentId==";
 
 		int i = 0;
 		for (long id : ids) {
@@ -532,8 +498,5 @@ public class InquaryDAO {
 		}
 		return qstring.toString();
 	}
-	
-	
-	
-	
+
 }

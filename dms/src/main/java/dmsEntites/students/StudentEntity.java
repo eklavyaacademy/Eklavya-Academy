@@ -40,7 +40,6 @@ public class StudentEntity implements Serializable {
 	@Column(defaultValue = "null", jdbcType = "DATE", name = "DOB")
 	private Date dateOfBirth;
 
-
 	@Column(defaultValue = "null", jdbcType = "VARCHAR", name = "institute_name")
 	private String instituteName;
 
@@ -56,7 +55,6 @@ public class StudentEntity implements Serializable {
 	@Column(name = "branch", jdbcType = "CLOB")
 	@Persistent(table = "student_branch")
 	private String branch; //BranchObject
-	
 	
 	@Column(name = "subjects", jdbcType = "CLOB")
 	@Persistent(table = "student_subjects")
@@ -261,5 +259,29 @@ public class StudentEntity implements Serializable {
 	}
 
 
+	public void updateAll(StudentEntity input){
+		
+		this.studentId = input.studentId;
+		
+		this.studentName = input.studentName;
+		
+		this.dateOfJoining = input.dateOfJoining;
+		
+		this.registrationDate = input.registrationDate;
+
+		this.dateOfBirth = input.dateOfBirth;
+
+		this.instituteName = input.instituteName;
+
+		this.schoolOrCollege = input.schoolOrCollege;
+
+		this.contact = input.contact;
+
+		this.branch = input.branch;
+		
+		this.subjects = input.subjects;
+		
+	}
+	
 	
 }
