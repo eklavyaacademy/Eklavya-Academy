@@ -44,7 +44,7 @@ public class StudentEntity implements Serializable {
 	private String instituteName;
 
 	@Column(jdbcType = "BIT", name = "schoolOrCollege")
-	private boolean schoolOrCollege = false; // false = school 	//true = college
+	private boolean schoolOrCollege = true; // false = school 	//true = college
 
 	
 	//JSON objects 

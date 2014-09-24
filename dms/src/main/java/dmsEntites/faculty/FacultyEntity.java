@@ -355,4 +355,32 @@ public class FacultyEntity implements Serializable {
 		return true;
 	}
 
+	
+	public void updateAll(FacultyEntity input) {
+		
+		this.facultyId = input.facultyId;
+
+		this.facultyName = input.facultyName;
+
+		this.isActive = input.isActive;
+
+		this.dateOfJoining = input.dateOfJoining;
+
+		this.paymentDate = input.paymentDate;
+
+		this.dateOfBirth = input.dateOfBirth;
+
+		this.basicSalary = input.basicSalary;
+
+		this.totalAdvanceAmountPaid = input.totalAdvanceAmountPaid;
+
+		this.contact = input.contact; // contactinfoObject
+
+		this.advances = input.advances; // AdvanceAmountListObject
+
+		this.qualifications = input.qualifications; // DegreeDataListObject
+
+		this.subjects = input.subjects;
+
+	}
 }

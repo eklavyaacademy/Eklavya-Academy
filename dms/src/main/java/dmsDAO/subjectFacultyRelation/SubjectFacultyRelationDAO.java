@@ -35,7 +35,7 @@ public class SubjectFacultyRelationDAO {
 
 			result = getSubjectFacultyRelationEntityBySubjectId(pm, id);
 
-			pm.makePersistent(result);
+			pm.makeTransient(result);
 
 			tx.commit();
 
@@ -103,7 +103,7 @@ public class SubjectFacultyRelationDAO {
 
 			result = getAllSubjectFacultyRelationEntity(pm);
 
-			pm.makePersistent(result);
+			pm.makeTransient(result);
 
 			tx.commit();
 
@@ -168,7 +168,7 @@ public class SubjectFacultyRelationDAO {
 
 			result = getSubjectFacultyRelationEntityById(pm, id);
 
-			pm.makePersistent(result);
+			pm.makeTransient(result);
 
 			tx.commit();
 

@@ -1,4 +1,4 @@
-package dmsDAO.students;
+package dmsDAO.faculty;
 
 import java.rmi.NoSuchObjectException;
 import java.util.List;
@@ -6,17 +6,20 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import dmsDAO.persistentUtil.PersistentFactory;
-import dmsEntites.students.StudentEntity;
 
-public class StudentDAO {
+import dmsDAO.persistentUtil.PersistentFactory;
+import dmsEntites.faculty.FacultyEntity;
+
+public class FacultyDAO {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(StudentDAO.class);
+			.getLogger(FacultyDAO.class);
+	
 
-	public static StudentEntity getStudentObjectById(long id) {
+	public static FacultyEntity getFacultyObjectById(long id) {
 
 		// get persistent manager
 		PersistenceManager pm = PersistentFactory.getPersistentManager();
@@ -24,13 +27,13 @@ public class StudentDAO {
 		// get transaction
 		Transaction tx = pm.currentTransaction();
 
-		StudentEntity result = null;
+		FacultyEntity result = null;
 
 		try {
 
 			tx.begin();
 
-			result = getStudentObjectById(pm, id);
+			result = getFacultyObjectById(pm, id);
 
 			pm.makeTransient(result);
 
@@ -39,7 +42,7 @@ public class StudentDAO {
 		} catch (Throwable e) {
 
 			logger.error(
-					"Unknown exception occurred while trying to fetch StudentEntity by id: {}",
+					"Unknown exception occurred while trying to fetch FacultyEntity by id: {}",
 					id, e);
 
 		} finally {
@@ -55,18 +58,18 @@ public class StudentDAO {
 
 	}
 
-	private static StudentEntity getStudentObjectById(PersistenceManager pm,
+	private static FacultyEntity getFacultyObjectById(PersistenceManager pm,
 			long id) throws Throwable {
 
-		Query query = pm.newQuery(StudentEntity.class);
+		Query query = pm.newQuery(FacultyEntity.class);
 
 		try {
 
-			query.setFilter("this.studentId == studentId");
-			query.declareParameters("long studentId");
+			query.setFilter("this.facultyId == facultyId");
+			query.declareParameters("long facultyId");
 			query.setUnique(true);
 
-			StudentEntity result = (StudentEntity) query.execute(id);
+			FacultyEntity result = (FacultyEntity) query.execute(id);
 
 			if (result == null)
 				throw new NoSuchObjectException("no object for id : " + id);
@@ -81,7 +84,7 @@ public class StudentDAO {
 
 	}
 
-	public static List<StudentEntity> getAllStudentObject() {
+	public static List<FacultyEntity> getAllFacultyObject() {
 
 		// get persistent manager
 		PersistenceManager pm = PersistentFactory.getPersistentManager();
@@ -89,13 +92,13 @@ public class StudentDAO {
 		// get transaction
 		Transaction tx = pm.currentTransaction();
 
-		List<StudentEntity> result = null;
+		List<FacultyEntity> result = null;
 
 		try {
 
 			tx.begin();
 
-			result = getAllStudentObject(pm);
+			result = getAllFacultyObject(pm);
 
 			pm.makeTransientAll(result);
 
@@ -104,7 +107,7 @@ public class StudentDAO {
 		} catch (Throwable e) {
 
 			logger.error(
-					"Unknown exception occurred while trying to fetch All StudentEntity ",
+					"Unknown exception occurred while trying to fetch All FacultyEntity ",
 					e);
 
 		} finally {
@@ -120,15 +123,15 @@ public class StudentDAO {
 
 	}
 
-	private static List<StudentEntity> getAllStudentObject(PersistenceManager pm)
+	private static List<FacultyEntity> getAllFacultyObject(PersistenceManager pm)
 			throws Throwable {
 
-		Query query = pm.newQuery(StudentEntity.class);
+		Query query = pm.newQuery(FacultyEntity.class);
 
 		try {
 
 			@SuppressWarnings("unchecked")
-			List<StudentEntity> result = (List<StudentEntity>) query.execute();
+			List<FacultyEntity> result = (List<FacultyEntity>) query.execute();
 
 			if (result == null)
 				throw new NoSuchObjectException("no object ");
@@ -143,8 +146,8 @@ public class StudentDAO {
 
 	}
 
-	public static List<StudentEntity> getStudentObjectByStudentName(
-			String studentName) {
+	public static List<FacultyEntity> getFacultyObjectByFacultyName(
+			String facultyName) {
 
 		// get persistent manager
 		PersistenceManager pm = PersistentFactory.getPersistentManager();
@@ -152,13 +155,13 @@ public class StudentDAO {
 		// get transaction
 		Transaction tx = pm.currentTransaction();
 
-		List<StudentEntity> result = null;
+		List<FacultyEntity> result = null;
 
 		try {
 
 			tx.begin();
 
-			result = getStudentObjectByStudentName(pm, studentName);
+			result = getFacultyObjectByFacultyName(pm, facultyName);
 
 			pm.makeTransientAll(result);
 
@@ -167,8 +170,8 @@ public class StudentDAO {
 		} catch (Throwable e) {
 
 			logger.error(
-					"Unknown exception occurred while trying to fetch StudentEntity by id: {}",
-					studentName, e);
+					"Unknown exception occurred while trying to fetch FacultyEntity by id: {}",
+					facultyName, e);
 
 		} finally {
 
@@ -183,18 +186,18 @@ public class StudentDAO {
 
 	}
 
-	private static List<StudentEntity> getStudentObjectByStudentName(
+	private static List<FacultyEntity> getFacultyObjectByFacultyName(
 			PersistenceManager pm, String name) throws Throwable {
 
-		Query query = pm.newQuery(StudentEntity.class);
+		Query query = pm.newQuery(FacultyEntity.class);
 
 		try {
 
-			query.setFilter("this.studentName == studentName");
-			query.declareParameters("String studentName");
+			query.setFilter("this.facultyName == facultyName");
+			query.declareParameters("String facultyName");
 
 			@SuppressWarnings("unchecked")
-			List<StudentEntity> result = (List<StudentEntity>) query
+			List<FacultyEntity> result = (List<FacultyEntity>) query
 					.execute(name);
 
 			if (result == null)
@@ -210,7 +213,7 @@ public class StudentDAO {
 
 	}
 
-	public static boolean saveStudentEntity(StudentEntity input) {
+	public static boolean saveFacultyEntity(FacultyEntity input) {
 
 		boolean success = false;
 
@@ -224,13 +227,13 @@ public class StudentDAO {
 
 			tx.begin();
 
-			success = saveStudentEntity(pm, input);
+			success = saveFacultyEntity(pm, input);
 
 			tx.commit();
 
 		} catch (Throwable e) {
 			logger.error(
-					"Unknown exception occurred while trying to create StudentEntity ",
+					"Unknown exception occurred while trying to create FacultyEntity ",
 					e);
 		} finally {
 
@@ -245,13 +248,13 @@ public class StudentDAO {
 
 	}
 
-	private static boolean saveStudentEntity(PersistenceManager pm,
-			StudentEntity input) {
+	private static boolean saveFacultyEntity(PersistenceManager pm,
+			FacultyEntity input) {
 
 		return (pm.makePersistent(input) != null ? true : false);
 	}
 
-	public static boolean saveMultipleStudentEntity(List<StudentEntity> input) {
+	public static boolean saveMultipleFacultyEntity(List<FacultyEntity> input) {
 
 		boolean success = false;
 
@@ -265,13 +268,13 @@ public class StudentDAO {
 
 			tx.begin();
 
-			success = saveMultipleStudentEntity(pm, input);
+			success = saveMultipleFacultyEntity(pm, input);
 
 			tx.commit();
 
 		} catch (Throwable e) {
 			logger.error(
-					"Unknown exception occurred while trying to create StudentEntity ",
+					"Unknown exception occurred while trying to create FacultyEntity ",
 					e);
 		} finally {
 
@@ -286,13 +289,13 @@ public class StudentDAO {
 
 	}
 
-	private static boolean saveMultipleStudentEntity(PersistenceManager pm,
-			List<StudentEntity> input) {
+	private static boolean saveMultipleFacultyEntity(PersistenceManager pm,
+			List<FacultyEntity> input) {
 
 		return (pm.makePersistentAll(input) != null ? true : false);
 	}
 
-	public static boolean updateStudentEntity(StudentEntity input) {
+	public static boolean updateFacultyEntity(FacultyEntity input) {
 
 		boolean success = false;
 
@@ -305,7 +308,7 @@ public class StudentDAO {
 		try {
 			tx.begin();
 
-			success = updateStudentEntity(pm, input);
+			success = updateFacultyEntity(pm, input);
 
 			tx.commit();
 		} catch (Throwable e) {
@@ -324,18 +327,18 @@ public class StudentDAO {
 		return success;
 	}
 
-	private static boolean updateStudentEntity(PersistenceManager pm,
-			StudentEntity input) throws Throwable {
+	private static boolean updateFacultyEntity(PersistenceManager pm,
+			FacultyEntity input) throws Throwable {
 
-		StudentEntity dbObject = pm.detachCopy(getStudentObjectById(pm,
-				input.getStudentId()));
+		FacultyEntity dbObject = pm.detachCopy(getFacultyObjectById(pm,
+				input.getFacultyId()));
 
 		dbObject.updateAll(input);
 
 		return (pm.makePersistent(dbObject) != null ? true : false);
 	}
 
-	public static boolean removeStudentEntityById(long id) {
+	public static boolean removeFacultyEntityById(long id) {
 		boolean success = false;
 
 		// get persistent manager
@@ -347,14 +350,14 @@ public class StudentDAO {
 		try {
 			tx.begin();
 
-			success = removeStudentEntityById(pm, id);
+			success = removeFacultyEntityById(pm, id);
 
 			tx.commit();
 
 		} catch (Throwable e) {
 
 			logger.error(
-					"Unknown exception occurred while trying to delete subject by id: {}",
+					"Unknown exception occurred while trying to delete faculty by id: {}",
 					id, e);
 
 		} finally {
@@ -369,17 +372,17 @@ public class StudentDAO {
 		return success;
 	}
 
-	private static boolean removeStudentEntityById(PersistenceManager pm,
+	private static boolean removeFacultyEntityById(PersistenceManager pm,
 			long id) throws Throwable {
 		boolean success = true;
 
-		StudentEntity dbobject = getStudentObjectById(pm, id);
+		FacultyEntity dbobject = getFacultyObjectById(pm, id);
 		pm.deletePersistent(dbobject);
 
 		return success;
 	}
 
-	public static boolean removeAllStudentEntity() {
+	public static boolean removeAllFacultyEntity() {
 		boolean success = false;
 
 		// get persistent manager
@@ -391,7 +394,7 @@ public class StudentDAO {
 		try {
 			tx.begin();
 
-			success = removeAllStudentEntity(pm);
+			success = removeAllFacultyEntity(pm);
 
 			tx.commit();
 
@@ -413,18 +416,18 @@ public class StudentDAO {
 		return success;
 	}
 
-	private static boolean removeAllStudentEntity(PersistenceManager pm)
+	private static boolean removeAllFacultyEntity(PersistenceManager pm)
 			throws Throwable {
 
 		boolean success = true;
 
-		List<StudentEntity> dbobjects = getAllStudentObject(pm);
+		List<FacultyEntity> dbobjects = getAllFacultyObject(pm);
 		pm.deletePersistentAll(dbobjects);
 
 		return success;
 	}
 
-	public static List<StudentEntity> getStudentEntityByMultipleStudentIds(
+	public static List<FacultyEntity> getFacultyEntityByMultipleStudentIds(
 			List<Long> ids) {
 
 		// get persistent manager
@@ -433,12 +436,12 @@ public class StudentDAO {
 		// get transaction
 		Transaction tx = pm.currentTransaction();
 
-		List<StudentEntity> result = null;
+		List<FacultyEntity> result = null;
 
 		try {
 			tx.begin();
 
-			result = getStudentEntityByMultipleStudentIds(pm, ids);
+			result = getFacultyEntityByMultipleStudentIds(pm, ids);
 
 			pm.makeTransientAll(result);
 
@@ -462,17 +465,17 @@ public class StudentDAO {
 
 	}
 
-	private static List<StudentEntity> getStudentEntityByMultipleStudentIds(
+	private static List<FacultyEntity> getFacultyEntityByMultipleStudentIds(
 			PersistenceManager pm, List<Long> ids) throws Throwable {
 
-		Query query = pm.newQuery(StudentEntity.class);
+		Query query = pm.newQuery(FacultyEntity.class);
 
 		try {
 
 			query.setFilter(getQueryForMultipleId(ids));
 
 			@SuppressWarnings("unchecked")
-			List<StudentEntity> subject = (List<StudentEntity>) query.execute();
+			List<FacultyEntity> subject = (List<FacultyEntity>) query.execute();
 
 			if (subject == null)
 				throw new NoSuchObjectException("no object for id : " + ids);
@@ -498,5 +501,6 @@ public class StudentDAO {
 		}
 		return qstring.toString();
 	}
-
+	
+	
 }

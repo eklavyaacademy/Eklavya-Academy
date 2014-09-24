@@ -39,7 +39,7 @@ public class InquaryDAO {
 
 			result = getInquaryObjectByInquaryId(pm, id);
 
-			pm.makePersistent(result);
+			pm.makeTransient(result);
 
 			tx.commit();
 
@@ -107,7 +107,7 @@ public class InquaryDAO {
 
 			result = getAllInquaryObject(pm);
 
-			pm.makePersistent(result);
+			pm.makeTransient(result);
 
 			tx.commit();
 
@@ -174,7 +174,7 @@ public class InquaryDAO {
 
 			result = getInquaryObjectByInquaryDate(pm, date);
 
-			pm.makePersistent(result);
+			pm.makeTransient(result);
 
 			tx.commit();
 
