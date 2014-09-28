@@ -1,4 +1,4 @@
-package dmsEntites.common.entity;
+package dmsEntites.faculty;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,7 +10,6 @@ import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PersistenceModifier;
 import javax.jdo.annotations.Persistent;
-import dmsEntites.faculty.BatchEntity;
 
 @PersistenceCapable(objectIdClass = FacultySubjectsEntity.class, table = "faculty_subject_entity", detachable = "true")
 public class FacultySubjectsEntity implements Serializable{
@@ -190,6 +189,12 @@ public class FacultySubjectsEntity implements Serializable{
 		super();
 	} 
 	
+	public void updateAll(FacultySubjectsEntity input){
+		this.subjectId = input.subjectId;
+		this.percentageOnSubject = input.percentageOnSubject;
+		this.amountColleted =  input.amountColleted;
+		this.batches =  input.batches;
+	}
 	
 	
 	

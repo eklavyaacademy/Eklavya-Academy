@@ -107,7 +107,12 @@ public class BatchEntity implements Serializable{
 	}
 
 	
-	
+
+	public void updateAll(BatchEntity input) {
+		this.batchId = input.batchId;
+		this.totalFeePaid = input.totalFeePaid;
+		this.students = input.students;
+	}
 
 	/*@Override
 	public String toString() {

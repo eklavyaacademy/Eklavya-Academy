@@ -13,8 +13,6 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PersistenceModifier;
 import javax.jdo.annotations.Persistent;
 
-import dmsEntites.common.entity.FacultySubjectsEntity;
-
 
 @PersistenceCapable(objectIdClass = FacultyEntity.class, table = "faculty_entity", detachable = "true")
 @Joins({
